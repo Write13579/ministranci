@@ -12,7 +12,7 @@ import {
 export default function ListaMinistrantow() {
   return (
     <div id="alles">
-      <h1 className="flex justify-center items-center text-3xl mb-8">
+      <h1 className="flex justify-center items-center text-3xl mb-8 font-bold italic">
         LISTA MINISTRANTÓW
       </h1>
       <Table>
@@ -23,8 +23,8 @@ export default function ListaMinistrantow() {
             <TableHead>Ranga</TableHead>
 
             <TableHead>Wiek</TableHead>
-            <TableHead>Rok przystąpienia</TableHead>
-            <TableHead>Czas służby (w latach)</TableHead>
+            <TableHead>Miesiąc przystąpienia</TableHead>
+            <TableHead>Czas służby (w miesiącach)</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -45,8 +45,8 @@ export default function ListaMinistrantow() {
               <Badge>Kandydat</Badge>
             </TableCell>
             <TableCell>8</TableCell>
-            <TableCell>2021</TableCell>
-            <TableCell>3</TableCell>
+            <TableCell>09.2021</TableCell>
+            <TableCell>36</TableCell>
           </TableRow>
         </TableBody>
       </Table>

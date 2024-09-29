@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
+import MenuBar from "./MenuBar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -36,29 +37,11 @@ export default function RootLayout({
           id="topNavbar"
           className=" w-full bg-gray-300 p-4 items-center justify-between flex mb-4"
         >
-          <div id="menu">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Menu />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="left" className="w-[200px]">
-                <SheetHeader>
-                  <SheetTitle>Menu</SheetTitle>
-                  <div className="flex flex-col gap-5">
-                    <Link href="/">Strona Główna</Link>
-                    <Link href="/czytanie">Czytanie na dziś</Link>
-                    <Link href="/listaMinistrantow">Lista ministrantów</Link>
-                    <button>4</button>
-                    <button>5</button>
-                  </div>
-                </SheetHeader>
-              </SheetContent>
-            </Sheet>
-          </div>
+          <MenuBar />
 
-          <h1 id="title">Ministranci</h1>
+          <h1 id="title" className="text-xl font-semibold animate-Shake">
+            <Link href="/">Panel Ministrancki</Link>
+          </h1>
 
           <div id="profil">
             <Sheet>

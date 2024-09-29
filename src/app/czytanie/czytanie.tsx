@@ -61,10 +61,7 @@ export default async function Czytanie() {
               </div>
             </CarouselItem>
             <CarouselItem>
-              <div
-                id="psalm"
-                className="border border-black rounded-xl p-4 max-w-xl"
-              >
+              <div id="psalm" className="border border-black rounded-xl p-4">
                 <p className="text-xl justify-center flex font-semibold">
                   Psalm:
                 </p>
@@ -76,7 +73,7 @@ export default async function Czytanie() {
               <CarouselItem>
                 <div
                   id="czytanie2"
-                  className="border border-black rounded-xl p-4 max-w-xl"
+                  className="border border-black rounded-xl p-4"
                 >
                   <p className="text-xl justify-center flex font-semibold">
                     Drugie czytanie:
@@ -87,10 +84,7 @@ export default async function Czytanie() {
               </CarouselItem>
             )}
             <CarouselItem>
-              <div
-                id="alleluja"
-                className="border border-black rounded-xl p-4 max-w-xl"
-              >
+              <div id="alleluja" className="border border-black rounded-xl p-4">
                 <p className="text-xl justify-center flex font-semibold">
                   Alleluja:
                 </p>
@@ -101,7 +95,7 @@ export default async function Czytanie() {
             <CarouselItem>
               <div
                 id="ewangelia"
-                className="border border-black rounded-xl p-4 max-w-xl"
+                className="border border-black rounded-xl p-4"
               >
                 <p className="text-xl justify-center flex font-semibold">
                   Ewangelia:

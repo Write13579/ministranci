@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <div id="alles" className="px-4">
       <p id="data">{dzisiaj}</p>
-      <h1 className="py-12 text-4xl">Witaj, Patryk!</h1>
+      <h1 className="py-12 text-4xl">Szczęść Boże, Patryk!</h1>
       <div id="kafelki" className="grid grid-cols-2 gap-5">
         <div className="border-2 border-red-600/40 p-5 rounded-lg flex justify-center items-center gap-1 bg-red-600/5">
           <span>Punkty łącznie: </span>
