@@ -40,12 +40,9 @@ export default async function Czytanie() {
   return (
     <div id="alles" className="px-10 mx-5 flex justify-center">
       <Carousel>
-        <CarouselContent>
+        <CarouselContent className="flex sm:max-w-xl max-w-80">
           <CarouselItem>
-            <div
-              id="czytanie1"
-              className="border border-black rounded-xl p-4 max-w-xl"
-            >
+            <div id="czytanie1" className="border border-black rounded-xl p-4">
               <p className="text-xl justify-center flex font-semibold">
                 Pierwsze czytanie:
               </p>
@@ -75,6 +72,30 @@ export default async function Czytanie() {
               </p>
               <p className="my-1 italic">{data.czytanie2.title}</p>
               <p className="leading-relaxed">{data.czytanie2.text}</p>
+            </div>
+          </CarouselItem>
+          <CarouselItem>
+            <div
+              id="alleluja"
+              className="border border-black rounded-xl p-4 max-w-xl"
+            >
+              <p className="text-xl justify-center flex font-semibold">
+                Alleluja:
+              </p>
+              <p className="my-1 italic">{data.alleluja.title}</p>
+              <p className="leading-relaxed">{data.alleluja.text}</p>
+            </div>
+          </CarouselItem>
+          <CarouselItem>
+            <div
+              id="ewangelia"
+              className="border border-black rounded-xl p-4 max-w-xl"
+            >
+              <p className="text-xl justify-center flex font-semibold">
+                Ewangelia:
+              </p>
+              <p className="my-1 italic">{data.ewangelia.title}</p>
+              <p className="leading-relaxed">{data.ewangelia.text}</p>
             </div>
           </CarouselItem>
         </CarouselContent>

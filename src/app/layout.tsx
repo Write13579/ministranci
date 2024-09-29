@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -44,8 +45,8 @@ export default function RootLayout({
                 <SheetHeader>
                   <SheetTitle>Menu</SheetTitle>
                   <div className="flex flex-col gap-5">
-                    <button>Home</button>
-                    <button>2</button>
+                    <Link href="/">Home</Link>
+                    <Link href="/czytanie">Czytanie na dziś</Link>
                     <button>3</button>
                     <button>4</button>
                     <button>5</button>
