@@ -5,22 +5,37 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { z } from "zod";
 
-type czytanieType = {
-  czytanie1: { title: string; text: string };
-  psalm: { title: string; text: string };
-  czytanie2: { title: string; text: string };
-  alleluja: { title: string; text: string };
-  ewangelia: { title: string; text: string };
-};
+const czytanieResponseSchema = z.discriminatedUnion("error", [
+  z.object({ error: z.literal(true) }),
+  z.object({
+    error: z.literal(false),
+    czytanie1: z.object({ title: z.string(), text: z.string() }),
+    czytanie2: z.object({ title: z.string(), text: z.string() }),
+    psalm: z.object({ title: z.string(), text: z.string() }),
+    alleluja: z.object({ title: z.string(), text: z.string() }).nullable(),
+    ewangelia: z.object({ title: z.string(), text: z.string() }),
+  }),
+]);
 
 export default async function Czytanie() {
   const url = "https://czytanie-api.vercel.app/api";
   const res = await fetch(url);
   if (!res.ok) {
     console.log("nie udalo sie pobrac danych");
+    return null;
   }
-  const data: czytanieType = await res.json();
+  const dataParse = czytanieResponseSchema.safeParse(await res.json());
+  if (dataParse.error) {
+    console.log("nie udalo sie pobrac danych");
+    return null;
+  }
+  if (dataParse.data.error) {
+    console.log("nie udalo sie pobrac danych");
+    return null;
+  }
+  const { data } = dataParse;
 
   return (
     <div id="alles" className="px-10 mx-5 flex justify-center">
