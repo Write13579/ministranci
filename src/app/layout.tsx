@@ -33,7 +33,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} antialiased bg-gray-200`}>
         <div
           id="topNavbar"
-          className=" w-full bg-gray-300 p-4 items-center justify-between relative flex"
+          className=" w-full bg-gray-300 p-4 items-center justify-between relative flex mb-5"
         >
           <div id="menu">
             <Sheet>
