@@ -43,13 +43,13 @@ export default function RootLayout({
               <SheetContent side="left" className="w-[200px]">
                 <SheetHeader>
                   <SheetTitle>Menu</SheetTitle>
-                  <SheetDescription className="flex flex-col gap-5">
+                  <div className="flex flex-col gap-5">
                     <button>Home</button>
                     <button>2</button>
                     <button>3</button>
                     <button>4</button>
                     <button>5</button>
-                  </SheetDescription>
+                  </div>
                 </SheetHeader>
               </SheetContent>
             </Sheet>
@@ -64,14 +64,16 @@ export default function RootLayout({
 
           <div id="profil">
             <Sheet>
-              <SheetTrigger>
-                <CircleUser />
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <CircleUser />
+                </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-[250px]">
                 <SheetHeader>
                   <SheetTitle>Patryk Baraniak</SheetTitle>
-                  <SheetDescription className="flex flex-col m-1 p-2 gap-y-2">
-                    <h2 id="nickname">Write13579</h2>
+                  <SheetDescription>Write13579</SheetDescription>
+                  <div className="flex flex-col m-1 p-2 gap-y-2">
                     <Badge variant="default" className="justify-center">
                       animator
                     </Badge>
@@ -85,7 +87,7 @@ export default function RootLayout({
                     <button>3</button>
                     <button>4</button>
                     <button>5</button>
-                  </SheetDescription>
+                  </div>
                 </SheetHeader>
               </SheetContent>
             </Sheet>
