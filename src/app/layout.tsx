@@ -34,20 +34,22 @@ export default function RootLayout({
       <body className={`${geistSans.variable} antialiased bg-gray-200`}>
         <div
           id="topNavbar"
-          className=" w-full bg-gray-300 p-4 items-center justify-between relative flex mb-5"
+          className=" w-full bg-gray-300 p-4 items-center justify-between flex mb-4"
         >
           <div id="menu">
             <Sheet>
-              <SheetTrigger>
-                <Menu />
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Menu />
+                </Button>
               </SheetTrigger>
               <SheetContent side="left" className="w-[200px]">
                 <SheetHeader>
                   <SheetTitle>Menu</SheetTitle>
                   <div className="flex flex-col gap-5">
-                    <Link href="/">Home</Link>
+                    <Link href="/">Strona Główna</Link>
                     <Link href="/czytanie">Czytanie na dziś</Link>
-                    <button>3</button>
+                    <Link href="/listaMinistrantow">Lista ministrantów</Link>
                     <button>4</button>
                     <button>5</button>
                   </div>
@@ -56,12 +58,7 @@ export default function RootLayout({
             </Sheet>
           </div>
 
-          <h1
-            id="title"
-            className="absolute left-1/2 transform -translate-x-1/2"
-          >
-            Ministranci
-          </h1>
+          <h1 id="title">Ministranci</h1>
 
           <div id="profil">
             <Sheet>
@@ -78,13 +75,13 @@ export default function RootLayout({
                     <Badge variant="default" className="justify-center">
                       animator
                     </Badge>
-                    <div
+                    <span
                       id="punkty"
-                      className="flex items-center text-center justify-center gap-1 italic"
+                      className="items-center text-center justify-center italic"
                     >
-                      <label>Zebrano</label>
-                      <p>100pkt</p>
-                    </div>
+                      <span>Zebrano </span>
+                      <span>100pkt</span>
+                    </span>
                     <button>3</button>
                     <button>4</button>
                     <button>5</button>
