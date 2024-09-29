@@ -11,6 +11,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -69,9 +70,18 @@ export default function RootLayout({
               <SheetContent side="right" className="w-[250px]">
                 <SheetHeader>
                   <SheetTitle>Patryk Baraniak</SheetTitle>
-                  <SheetDescription className="flex flex-col gap-5">
-                    <button>Home</button>
-                    <button>2</button>
+                  <SheetDescription className="flex flex-col m-1 p-2 gap-y-2">
+                    <h2 id="nickname">Write13579</h2>
+                    <Badge variant="default" className="justify-center">
+                      animator
+                    </Badge>
+                    <div
+                      id="punkty"
+                      className="flex items-center text-center justify-center gap-1 italic"
+                    >
+                      <label>Zebrano</label>
+                      <p>100pkt</p>
+                    </div>
                     <button>3</button>
                     <button>4</button>
                     <button>5</button>
