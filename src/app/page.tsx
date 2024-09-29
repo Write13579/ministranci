@@ -14,6 +14,19 @@ export default function Home() {
     <div id="alles" className="px-4">
       <p id="data">{dzisiaj}</p>
       <h1 className="py-12 text-4xl">Szczęść Boże, Patryk!</h1>
+      <div
+        id="infoKafelek"
+        className="border-2 border-gray-600/40 p-5 rounded-lg flex
+        justify-center items-center mb-8 bg-gray-600/5 flex-col"
+      >
+        <h1 className="mb-4 font-semibold italic">PRZYPIĘTA INFORMACJA</h1>
+        <div className="text-center">
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum
+          possimus adipisci ad obcaecati atque. Repudiandae earum impedit
+          delectus eos officiis repellendus voluptate, nulla sed mollitia
+          provident, asperiores dolores quod molestiae.
+        </div>
+      </div>
       <div id="kafelki" className="grid grid-cols-2 gap-5">
         <div className="border-2 border-red-600/40 p-5 rounded-lg flex justify-center items-center gap-1 bg-red-600/5">
           <span>Punkty łącznie: </span>

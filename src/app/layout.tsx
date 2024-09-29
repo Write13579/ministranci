@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { CircleUser, Menu } from "lucide-react";
+import {
+  ChartNoAxesCombined,
+  CircleUser,
+  LogOut,
+  Menu,
+  Settings,
+} from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -53,21 +59,29 @@ export default function RootLayout({
               <SheetContent side="right" className="w-[250px]">
                 <SheetHeader>
                   <SheetTitle>Patryk Baraniak</SheetTitle>
-                  <SheetDescription>Write13579</SheetDescription>
+                  <SheetDescription id="pseudonim">Write13579</SheetDescription>
                   <div className="flex flex-col m-1 p-2 gap-y-2">
                     <Badge variant="default" className="justify-center">
                       animator
                     </Badge>
                     <span
                       id="punkty"
-                      className="items-center text-center justify-center italic"
+                      className="items-center text-center justify-center italic my-4"
                     >
-                      <span>Zebrano </span>
+                      <span>Zebrałeś łącznie </span>
                       <span>100pkt</span>
                     </span>
-                    <button>3</button>
-                    <button>4</button>
-                    <button>5</button>
+                    <div id="buttony" className="gap-2 flex">
+                      <Button>
+                        <ChartNoAxesCombined />
+                      </Button>
+                      <Button>
+                        <Settings />
+                      </Button>
+                      <Button>
+                        <LogOut color="red" />
+                      </Button>
+                    </div>
                   </div>
                 </SheetHeader>
               </SheetContent>
