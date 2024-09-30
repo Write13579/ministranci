@@ -23,7 +23,7 @@ const czytanieResponseSchema = z.discriminatedUnion("error", [
 
 export default async function Czytanie() {
   const url = "https://czytanie-api.vercel.app/api";
-  const res = await fetch(url);
+  const res = await fetch(url, { cache: "no-cache" });
   if (!res.ok) {
     console.log("nie udalo sie pobrac danych");
     return null;
