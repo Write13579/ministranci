@@ -9,10 +9,10 @@ export default function planTygodniowy() {
     weekday: string;
     hour: HourOptions;
   };
-  const dane: DaneType[] = [
-    { name: "patryk", weekday: "monday", hour: HourOptions.H8 },
-    { name: "andrzej", weekday: "wednesday", hour: HourOptions.H18 },
-  ];
+  // const dane: DaneType[] = [
+  //   { name: "patryk", weekday: "monday", hour: HourOptions.H8 },
+  //   { name: "andrzej", weekday: "wednesday", hour: HourOptions.H18 },
+  // ];
 
   return (
     /**tu zrobic table a nie 200 spanow */ <div>
