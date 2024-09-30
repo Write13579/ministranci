@@ -1,14 +1,14 @@
 export default function planTygodniowy() {
-  enum HourOptions {
-    H8 = "8:00",
-    H18 = "18:00",
-  }
+  // enum HourOptions {
+  //   H8 = "8:00",
+  //   H18 = "18:00",
+  // }
 
-  type DaneType = {
-    name: string;
-    weekday: string;
-    hour: HourOptions;
-  };
+  // type DaneType = {
+  //   name: string;
+  //   weekday: string;
+  //   hour: HourOptions;
+  // };
   // const dane: DaneType[] = [
   //   { name: "patryk", weekday: "monday", hour: HourOptions.H8 },
   //   { name: "andrzej", weekday: "wednesday", hour: HourOptions.H18 },
