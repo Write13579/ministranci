@@ -72,13 +72,15 @@ export default function RootLayout({
                       <span>100pkt</span>
                     </span>
                     <div id="buttony" className="gap-2 flex">
-                      <Button variant="outline">
-                        <ChartNoAxesCombined />
+                      <Button id="statystyki" variant="outline">
+                        <Link href="/statystyki">
+                          <ChartNoAxesCombined />
+                        </Link>
                       </Button>
-                      <Button variant="outline">
+                      <Button id="ustawienia" variant="outline">
                         <Settings />
                       </Button>
-                      <Button variant="destructive">
+                      <Button id="logout" variant="destructive">
                         <LogOut />
                       </Button>
                     </div>

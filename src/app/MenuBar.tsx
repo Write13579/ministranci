@@ -29,14 +29,18 @@ export default function MenuBar() {
               <Link href="/" onClick={() => setOpened(false)}>
                 Strona Główna
               </Link>
+              <Link href="/informacje" onClick={() => setOpened(false)}>
+                Informacje
+              </Link>
               <Link href="/czytanie" onClick={() => setOpened(false)}>
                 Czytanie na dziś
               </Link>
               <Link href="/listaMinistrantow" onClick={() => setOpened(false)}>
                 Lista ministrantów
               </Link>
-              <button>4</button>
-              <button>5</button>
+              <Link href={"/ranking"} onClick={() => setOpened(false)}>
+                Ranking
+              </Link>
             </div>
           </SheetHeader>
         </SheetContent>
