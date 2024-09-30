@@ -1,4 +1,4 @@
-import { BookOpen, Trophy } from "lucide-react";
+import { BookOpen, Calendar, CalendarX, Info, Trophy } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
@@ -41,12 +41,29 @@ export default function Home() {
           </span>
         </div>
 
-        <div className="border-2 border-yellow-600/40 p-5 rounded-lg flex justify-center items-center gap-1 bg-yellow-600/5">
-          <span>Punkty za ostatni miesiąc: </span>
-          <span className="text-yellow-600 text-2xl font-bold [text-shadow:_0_0_30px]">
-            50pkt
-          </span>
-        </div>
+        <Link
+          href="/planNiedzielny"
+          className="border-2 border-[#4287f5]/40 p-5 justify-center flex rounded-lg items-center gap-2 flex-col bg-[#4287f5]/5"
+        >
+          <span>plan niedzielny</span>
+          <CalendarX size={35} color="#4287f5" />
+        </Link>
+
+        <Link
+          href="/planTygodniowy"
+          className="border-2 border-[#0f0f75]/40 p-5 justify-center flex rounded-lg items-center gap-2 flex-col bg-[#0f0f75]/5"
+        >
+          <span>plan tygodniowy</span>
+          <Calendar size={35} color="#0f0f75" />
+        </Link>
+
+        <Link
+          href="/informacje"
+          className="border-2 border-[#657322]/40 p-5 justify-center flex rounded-lg items-center gap-2 flex-col bg-[#657322]/5"
+        >
+          <span>informacje</span>
+          <Info size={35} color="#657322" />
+        </Link>
 
         <Link
           href="/czytanie"
