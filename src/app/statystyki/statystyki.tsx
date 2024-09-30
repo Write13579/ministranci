@@ -87,7 +87,7 @@ export default function Statystyki() {
           </div>
         </div>
         <div id="stats" className="my-6">
-          <Card>
+          <Card className="w-full max-w-96 mx-auto flex justify-center flex-col items-center text-center">
             <CardHeader className="flex justify-center text-center">
               <CardTitle>Statystyki</CardTitle>
             </CardHeader>

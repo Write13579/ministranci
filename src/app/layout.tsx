@@ -5,7 +5,6 @@ import {
   ChartNoAxesCombined,
   CircleUser,
   LogOut,
-  Menu,
   Settings,
 } from "lucide-react";
 import {
@@ -78,7 +77,9 @@ export default function RootLayout({
                         </Link>
                       </Button>
                       <Button id="ustawienia" variant="outline">
-                        <Settings />
+                        <Link href="ustawienia">
+                          <Settings />
+                        </Link>
                       </Button>
                       <Button id="logout" variant="destructive">
                         <LogOut />

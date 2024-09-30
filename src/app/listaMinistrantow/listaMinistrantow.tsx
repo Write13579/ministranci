@@ -2,7 +2,6 @@ import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -48,7 +47,9 @@ export default function ListaMinistrantow() {
               <TableCell>Tomek</TableCell>
               <TableCell>Kowalski</TableCell>
               <TableCell>
-                <Badge className="bg-orange-600 hover:bg-orange-500">Kandydat</Badge>
+                <Badge className="bg-orange-600 hover:bg-orange-500">
+                  Kandydat
+                </Badge>
               </TableCell>
               <TableCell>8</TableCell>
               <TableCell>09.2021</TableCell>

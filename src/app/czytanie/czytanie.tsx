@@ -46,7 +46,7 @@ export default async function Czytanie() {
           CZYTANIE NA DZIŚ
         </h1>
 
-        <Carousel>
+        <Carousel className="flex">
           <CarouselContent className="flex">
             <CarouselItem>
               <div
