@@ -1,22 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import {
-  ChartNoAxesCombined,
-  CircleUser,
-  LogOut,
-  Settings,
-} from "lucide-react";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+
 import Link from "next/link";
 import MenuBar from "./MenuBar";
 import ProfileBar from "./ProfileBar";
