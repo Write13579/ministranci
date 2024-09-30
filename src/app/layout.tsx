@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import MenuBar from "./MenuBar";
+import ProfileBar from "./ProfileBar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -48,48 +49,7 @@ export default function RootLayout({
             <Link href="/">Panel Ministrancki</Link>
           </h1>
 
-          <div id="profil">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <CircleUser />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="w-[250px]">
-                <SheetHeader>
-                  <SheetTitle>Patryk Baraniak</SheetTitle>
-                  <SheetDescription id="pseudonim">Write13579</SheetDescription>
-                  <div className="flex flex-col m-1 p-2 gap-y-2">
-                    <Badge variant="default" className="justify-center">
-                      animator
-                    </Badge>
-                    <span
-                      id="punkty"
-                      className="items-center text-center justify-center italic my-4"
-                    >
-                      <span>Zebrałeś łącznie </span>
-                      <span>100pkt</span>
-                    </span>
-                    <div id="buttony" className="gap-2 flex">
-                      <Button id="statystyki" variant="outline">
-                        <Link href="/statystyki">
-                          <ChartNoAxesCombined />
-                        </Link>
-                      </Button>
-                      <Button id="ustawienia" variant="outline">
-                        <Link href="ustawienia">
-                          <Settings />
-                        </Link>
-                      </Button>
-                      <Button id="logout" variant="destructive">
-                        <LogOut />
-                      </Button>
-                    </div>
-                  </div>
-                </SheetHeader>
-              </SheetContent>
-            </Sheet>
-          </div>
+          <ProfileBar />
         </div>
         {children}
       </body>
