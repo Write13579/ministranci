@@ -20,12 +20,14 @@ export default function ustawienia() {
               Zmień hasło
             </div>
           </Link>
-          <div
-            id="messageToAnimator"
-            className="border-2 border-black/30 rounded-lg py-2.5 px-3 font-semibold bg-gray-300"
-          >
-            Anonimowa wiadomość do animatora
-          </div>
+          <Link href={"/ustawienia/wiadomoscDoAnimatora"}>
+            <div
+              id="messageToAnimator"
+              className="border-2 border-black/30 rounded-lg py-2.5 px-3 font-semibold bg-gray-300"
+            >
+              Anonimowa wiadomość do animatora
+            </div>
+          </Link>
           <div
             id=""
             className="border-2 border-black/30 rounded-lg py-2.5 px-3 font-semibold bg-gray-300"
