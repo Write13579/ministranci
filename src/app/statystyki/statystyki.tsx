@@ -87,7 +87,7 @@ export default function Statystyki() {
               </div>
             ) : (
               <div id="pseudonimPlace" className="mt-1 relative">
-                <span id="pseudonim" className="text-gray-500">
+                <span id="pseudonim" className="text-gray-500 italic">
                   {nick}
                 </span>
                 <Button

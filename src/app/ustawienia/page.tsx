@@ -12,17 +12,19 @@ export default function ustawienia() {
           Ustawienia
         </h1>
         <div id="opcje" className="grid grid-cols-1 mx-3 my-2 gap-3">
-          <div
-            id="changePassword"
-            className="border-2 border-black/30 rounded-lg py-2.5 px-3 font-semibold bg-gray-300"
-          >
-            Zmień hasło
-          </div>
+          <Link href={"/ustawienia/zmienHaslo"}>
+            <div
+              id="changePassword"
+              className="border-2 border-black/30 rounded-lg py-2.5 px-3 font-semibold bg-gray-300"
+            >
+              Zmień hasło
+            </div>
+          </Link>
           <div
             id="messageToAnimator"
             className="border-2 border-black/30 rounded-lg py-2.5 px-3 font-semibold bg-gray-300"
           >
-            Wyślij wiadomość do animatora
+            Anonimowa wiadomość do animatora
           </div>
           <div
             id=""
