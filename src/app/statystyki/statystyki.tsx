@@ -35,7 +35,7 @@ export default function Statystyki() {
     { miesiac: "Luty 2024", userWynik: 65, sredniWynik: 120 },
     { miesiac: "Marzec 2024", userWynik: 42, sredniWynik: 10 },
     { miesiac: "Kwiecień 2024", userWynik: 12, sredniWynik: 50 },
-    { miesiac: "Luty 2024", userWynik: 101, sredniWynik: 86 },
+    { miesiac: "Maj 2024", userWynik: 101, sredniWynik: 86 },
   ];
 
   return (
@@ -52,7 +52,7 @@ export default function Statystyki() {
             </AvatarFallback>
           </Avatar>
           <div id="nazwa" className="items-center flex flex-col">
-            <div id="fullName" className="my-3">
+            <div id="fullName" className="my-3 font-semibold">
               <span id="imie">Patryk </span>
               <span id="nazwisko">Baraniak</span>
             </div>
@@ -65,7 +65,7 @@ export default function Statystyki() {
               </Button>
             </div>
             <div
-              id="opis"
+              id="bio"
               className="grid w-full gap-1 my-4 justify-center items-center text-center"
             >
               <Textarea placeholder="Napisz coś o sobie" />
@@ -74,10 +74,12 @@ export default function Statystyki() {
               </Button>
             </div>
           </div>
-          <div id="badges" className=" my-3 grid gap-2 grid-cols-2">
+          <div id="ranga" className="grid grid-cols-1 grid-rows-1 my-1 w-44">
             <Badge className="bg-red-600 flex justify-center hover:bg-red-700">
               Animator
             </Badge>
+          </div>
+          <div id="badges" className=" my-3 grid gap-2 grid-cols-2">
             <Badge className="bg-yellow-600 flex justify-center hover:bg-yellow-700">
               2 miejsce sierpień 2024
             </Badge>

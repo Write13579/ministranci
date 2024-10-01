@@ -35,6 +35,9 @@ export default function MenuBar() {
               <Link href="/czytanie" onClick={() => setOpened(false)}>
                 Czytanie na dziś
               </Link>
+              <Link href="/materialy" onClick={() => setOpened(false)}>
+                Materiały do nauki
+              </Link>
               <Link href="/listaMinistrantow" onClick={() => setOpened(false)}>
                 Lista ministrantów
               </Link>
