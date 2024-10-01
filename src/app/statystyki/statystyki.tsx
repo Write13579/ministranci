@@ -16,9 +16,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { House, PencilLine, User } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
 
 export default function Statystyki() {
+  //statystyki
   const chartConfig = {
     userWynik: {
       label: "Twój wynik",
@@ -38,6 +40,10 @@ export default function Statystyki() {
     { miesiac: "Maj 2024", userWynik: 101, sredniWynik: 86 },
   ];
 
+  //pseudonim
+  const [editingNick, setEditingNick] = useState<boolean>(false);
+  const [nick, setNick] = useState<string>("ministrant");
+
   return (
     <div id="wraper" className="relative">
       <Link href="/" className="mx-5 flex absolute top-1">
@@ -56,14 +62,43 @@ export default function Statystyki() {
               <span id="imie">Patryk </span>
               <span id="nazwisko">Baraniak</span>
             </div>
-            <div id="pseudonimPlace" className="mt-1 relative">
-              <span id="pseudonim" className="text-gray-500">
-                Write13579
-              </span>
-              <Button size={"icon"} className="size-5 ml-1.5 absolute top-0.5">
-                <PencilLine className="size-4" />
-              </Button>
-            </div>
+            {editingNick ? (
+              <div id="pseudonimPlace" className="mt-1 relative">
+                <input
+                  id="pseudonim"
+                  className="text-gray-500"
+                  placeholder={"ministrant"}
+                  value={nick}
+                  onChange={(e) => setNick(e.target.value)}
+                />
+
+                <Button
+                  size={"icon"}
+                  className="size-5 ml-1.5 absolute top-0.5"
+                  onClick={() => {
+                    setEditingNick(false);
+                    if (nick === "") {
+                      setNick("ministrant");
+                    }
+                  }}
+                >
+                  <PencilLine className="size-4" />
+                </Button>
+              </div>
+            ) : (
+              <div id="pseudonimPlace" className="mt-1 relative">
+                <span id="pseudonim" className="text-gray-500">
+                  {nick}
+                </span>
+                <Button
+                  size={"icon"}
+                  className="size-5 ml-1.5 absolute top-0.5"
+                  onClick={() => setEditingNick(true)}
+                >
+                  <PencilLine className="size-4" />
+                </Button>
+              </div>
+            )}
             <div
               id="bio"
               className="grid w-full gap-1 my-4 justify-center items-center text-center"
