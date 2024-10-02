@@ -40,7 +40,8 @@ export async function getMe() {
       where: eq(users.id, payload.id),
     });
     return user || null;
-  } catch (error) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (e) {
     return null;
   }
 }

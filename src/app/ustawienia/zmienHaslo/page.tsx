@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { Path, useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -61,7 +61,9 @@ export default function ZmienHaslo() {
       form.reset();
     }
     errors.forEach((formerror) => {
-      form.setError(formerror.field as any, { message: formerror.error });
+      form.setError(formerror.field as Path<z.infer<typeof formSchema>>, {
+        message: formerror.error,
+      });
     });
   }
 
