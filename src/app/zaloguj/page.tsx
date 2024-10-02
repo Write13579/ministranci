@@ -11,13 +11,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { Path, useForm } from "react-hook-form";
 import { z } from "zod";
 import { sprawdzLogowanie } from "../auth-actions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-export default function pageZaloguj() {
+export default function PageZaloguj() {
   const formSchema = z.object({
     login: z.string().min(1, { message: "To pole nie może być puste" }),
     haslo: z.string().min(1, { message: "To pole nie może być puste" }),
@@ -39,7 +39,9 @@ export default function pageZaloguj() {
       router.push("/");
     }
     errors.forEach((formerror) => {
-      form.setError(formerror.field as any, { message: formerror.error });
+      form.setError(formerror.field as Path<z.infer<typeof formSchema>>, {
+        message: formerror.error,
+      });
     });
   }
   return (
