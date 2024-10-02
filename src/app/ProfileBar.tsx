@@ -10,6 +10,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { User } from "@/lib/database/scheme";
 import {
   ChartNoAxesCombined,
   CircleUser,
@@ -19,9 +20,17 @@ import {
 import Link from "next/link";
 import { useState } from "react";
 
-export default function ProfileBar() {
+export default function ProfileBar({ user }: { user: User | null }) {
   const [opened, setOpened] = useState(false);
-
+  if (!user) {
+    return (
+      <Link href={"/zaloguj"}>
+        <Button variant="ghost" size="icon">
+          <CircleUser />
+        </Button>
+      </Link>
+    );
+  }
   return (
     <div id="profil">
       <Sheet open={opened} onOpenChange={setOpened}>
@@ -32,11 +41,11 @@ export default function ProfileBar() {
         </SheetTrigger>
         <SheetContent side="right" className="w-[250px]">
           <SheetHeader>
-            <SheetTitle>Patryk Baraniak</SheetTitle>
-            <SheetDescription id="pseudonim">Write13579</SheetDescription>
+            <SheetTitle>{user.name}</SheetTitle>
+            <SheetDescription id="pseudonim">{user.pseudonim}</SheetDescription>
             <div className="flex flex-col m-1 p-2 gap-y-2">
               <Badge variant="default" className="justify-center">
-                animator
+                {user.ranga.toLowerCase()}
               </Badge>
               <span
                 id="punkty"
@@ -52,7 +61,7 @@ export default function ProfileBar() {
                   </Link>
                 </Button>
                 <Button id="ustawienia" variant="outline">
-                  <Link href="ustawienia" onClick={() => setOpened(false)}>
+                  <Link href="/ustawienia" onClick={() => setOpened(false)}>
                     <Settings />
                   </Link>
                 </Button>

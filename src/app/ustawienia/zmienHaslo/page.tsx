@@ -16,8 +16,10 @@ import {
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Undo2 } from "lucide-react";
+import { zmienHaslo } from "@/app/auth-actions";
+import { toast } from "sonner";
 
-export default function zmienHaslo() {
+export default function ZmienHaslo() {
   const formSchema = z
     .object({
       stareHaslo: z
@@ -42,92 +44,111 @@ export default function zmienHaslo() {
         });
       }
     });
-  function PasswordForm() {
-    const form = useForm<z.infer<typeof formSchema>>({
-      resolver: zodResolver(formSchema),
-      defaultValues: {
-        stareHaslo: "",
-        noweHaslo: "",
-        ponownieNoweHaslo: "",
-      },
-    });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-      console.log(values);
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      stareHaslo: "",
+      noweHaslo: "",
+      ponownieNoweHaslo: "",
+    },
+  });
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const errors = await zmienHaslo(values.stareHaslo, values.noweHaslo);
+    if (errors.length === 0) {
+      toast("Pomyślnie zmieniono hasło!");
+      form.reset();
     }
-
-    return (
-      <div id="wraper">
-        <Link href="/ustawienia" className="w-fit flex mx-8">
-          <Undo2 className="border-2 border-black/80 rounded-md" />
-        </Link>
-        <div
-          id="obramowowka tego gownoforma"
-          className="border-2 border-black/30 rounded-lg py-2.5 px-3 font-semibold bg-gray-300 m-7"
-        >
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-8 m-6 mt-4"
-            >
-              <FormField
-                control={form.control}
-                name="stareHaslo"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-bold">Stare hasło</FormLabel>
-                    <FormControl>
-                      <Input placeholder={"Stare hasło"} {...field} />
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="noweHaslo"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-bold">Nowe hasło</FormLabel>
-                    <FormControl>
-                      <Input placeholder={"Nowe hasło"} {...field} />
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="ponownieNoweHaslo"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-bold">
-                      Powtórz nowe hasło
-                    </FormLabel>
-                    <FormControl>
-                      <Input placeholder={"Nowe hasło"} {...field} />
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div id="zmienHasloBtn" className="flex justify-center">
-                <Button type="submit" className="font-bold">
-                  Zmień Hasło
-                </Button>
-              </div>
-            </form>
-          </Form>
-        </div>
-      </div>
-    );
+    errors.forEach((formerror) => {
+      form.setError(formerror.field as any, { message: formerror.error });
+    });
   }
+
   return (
-    <div id="alles">
-      <PasswordForm />
+    <div id="wraper" className="relative">
+      <Link href="/ustawienia" className="mx-5 flex absolute top-1">
+        <Undo2 className="border-2 border-black/80 rounded-md" />
+      </Link>
+
+      <h1 className="font-bold text-2xl flex justify-center m-2 mb-4">
+        Zmiana hasła
+      </h1>
+      <div
+        id="obramowowka tego gownoforma"
+        className="border-2 border-black/30 rounded-lg py-2.5 px-3 font-semibold bg-gray-300 m-7"
+      >
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-8 m-6 mt-4"
+          >
+            <FormField
+              control={form.control}
+              name="stareHaslo"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-bold">Stare hasło</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      placeholder={"Stare hasło"}
+                      {...field}
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="noweHaslo"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-bold">Nowe hasło</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      placeholder={"Nowe hasło"}
+                      {...field}
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="ponownieNoweHaslo"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-bold">
+                    Powtórz nowe hasło
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      placeholder={"Nowe hasło"}
+                      {...field}
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div id="zmienHasloBtn" className="flex justify-center">
+              <Button type="submit" className="font-bold">
+                Zmień Hasło
+              </Button>
+            </div>
+          </form>
+        </Form>
+      </div>
     </div>
   );
 }
+
+//mein pass: iNvakbTI4i

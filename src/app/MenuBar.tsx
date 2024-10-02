@@ -24,7 +24,7 @@ export default function MenuBar() {
         </SheetTrigger>
         <SheetContent side="left" className="w-[200px]">
           <SheetHeader>
-            <SheetTitle>Menu</SheetTitle>
+            <SheetTitle className="mb-4">Menu</SheetTitle>
             <div className="flex flex-col gap-5">
               <Link href="/" onClick={() => setOpened(false)}>
                 Strona Główna

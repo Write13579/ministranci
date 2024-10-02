@@ -13,13 +13,14 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { Textarea } from "@/components/ui/textarea";
+import { User } from "@/lib/database/scheme";
 import { AvatarImage } from "@radix-ui/react-avatar";
-import { House, PencilLine, User } from "lucide-react";
+import { House, PencilLine, UserIcon } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
 
-export default function Statystyki() {
+export default function Statystyki({ user }: { user: User | null }) {
   //statystyki
   const chartConfig = {
     userWynik: {
@@ -27,7 +28,7 @@ export default function Statystyki() {
       color: "#2563eb",
     },
     sredniWynik: {
-      label: "średni wynik",
+      label: "Średni wynik",
       color: "#FF0000",
     },
   } satisfies ChartConfig;
@@ -54,13 +55,12 @@ export default function Statystyki() {
           <Avatar className="size-36">
             <AvatarImage src="https://github.com/shadcn.png" />
             <AvatarFallback>
-              <User />
+              <UserIcon />
             </AvatarFallback>
           </Avatar>
           <div id="nazwa" className="items-center flex flex-col">
             <div id="fullName" className="my-3 font-semibold">
-              <span id="imie">Patryk </span>
-              <span id="nazwisko">Baraniak</span>
+              <span id="fullName">{user!.name}</span>
             </div>
             {editingNick ? (
               <div id="pseudonimPlace" className="mt-1 relative">

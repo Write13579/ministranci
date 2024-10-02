@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Toaster } from "@/components/ui/sonner";
 import { Textarea } from "@/components/ui/textarea";
 import { Undo2 } from "lucide-react";
 import Link from "next/link";
@@ -12,10 +11,13 @@ import { toast } from "sonner";
 export default function wiadomoscDoAnimatora() {
   const [wiadomosc, setwiadomosc] = useState<string>("");
   return (
-    <div id="wraper">
-      <Link href="/ustawienia" className="w-fit flex mx-8">
+    <div id="wraper" className="relative">
+      <Link href="/ustawienia" className="mx-5 flex absolute top-1">
         <Undo2 className="border-2 border-black/80 rounded-md" />
       </Link>
+      <h1 className="font-bold text-2xl flex justify-center m-2 mb-4">
+        Wiadomość do animatora
+      </h1>
       <div
         id="obramowowka"
         className="border-2 border-black/30 rounded-lg py-2.5 px-3 font-semibold bg-gray-300 m-7"
@@ -40,7 +42,6 @@ export default function wiadomoscDoAnimatora() {
           </Button>
         </div>
       </div>
-      <Toaster />
     </div>
   );
 }

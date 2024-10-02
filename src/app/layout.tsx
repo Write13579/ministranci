@@ -5,6 +5,8 @@ import "./globals.css";
 import Link from "next/link";
 import MenuBar from "./MenuBar";
 import ProfileBar from "./ProfileBar";
+import { Toaster } from "@/components/ui/sonner";
+import { getMe } from "./authutils";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -16,11 +18,13 @@ export const metadata: Metadata = {
   title: "Ministranci Tychy-Czulow",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const user = await getMe();
+
   return (
     <html lang="en">
       <body className={`${geistSans.variable} antialiased bg-gray-200`}>
@@ -29,14 +33,12 @@ export default function RootLayout({
           className=" w-full bg-gray-300 p-4 items-center justify-between flex mb-4"
         >
           <MenuBar />
-
           <h1 id="title" className="text-xl font-semibold animate-Shake">
             <Link href="/">Panel Ministrancki</Link>
           </h1>
-
-          <ProfileBar />
+          <ProfileBar user={user} />
         </div>
-        {children}
+        {children} <Toaster />
       </body>
     </html>
   );
