@@ -1,10 +1,11 @@
 "use server";
 
 import { db } from "@/lib/database";
-import { users } from "@/lib/database/scheme";
+import { UserRanga, users } from "@/lib/database/scheme";
 import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { encode, getMe, hashPassword, verifyPassword } from "./authutils";
+import { generateRandomString } from "./api/create-first-user/route";
 
 export async function sprawdzLogowanie(login: string, password: string) {
   const user = await db.query.users.findFirst({
@@ -56,4 +57,21 @@ export async function zmienNick(nick: string) {
     throw new Error("unauthorized");
   }
   await db.update(users).set({ pseudonim: nick }).where(eq(users.id, user.id));
+}
+
+export async function stworzMinistranta(
+  login: string,
+  name: string,
+  ranga: UserRanga,
+  admin: boolean
+) {
+  const password = generateRandomString(8);
+  await db.insert(users).values({
+    login,
+    name,
+    password: await hashPassword(password),
+    ranga,
+    admin,
+  });
+  return login + " " + password;
 }

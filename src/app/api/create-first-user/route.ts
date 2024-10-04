@@ -20,7 +20,7 @@ export async function GET() {
   return Response.json({ password });
 }
 
-function generateRandomString(length: number): string {
+export function generateRandomString(length: number): string {
   const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let result = "";
