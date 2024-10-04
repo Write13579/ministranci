@@ -40,9 +40,7 @@ export async function getMe() {
       where: eq(users.id, payload.id),
     });
     return user || null;
-  } catch (error) {
-    console.log(error);
-
+  } catch (e) {
     return null;
   }
 }
