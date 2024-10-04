@@ -5,7 +5,6 @@ import { users } from "@/lib/database/scheme";
 import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { encode, getMe, hashPassword, verifyPassword } from "./authutils";
-import { error } from "console";
 
 export async function sprawdzLogowanie(login: string, password: string) {
   const user = await db.query.users.findFirst({
@@ -45,4 +44,16 @@ export async function zmienHaslo(stareHaslo: string, noweHaslo: string) {
     .set({ password: noweHasloHashed })
     .where(eq(users.id, user.id));
   return [];
+}
+
+export async function Wyloguj() {
+  cookies().delete("JWTToken");
+}
+
+export async function zmienNick(nick: string) {
+  const user = await getMe();
+  if (!user) {
+    throw new Error("unauthorized");
+  }
+  await db.update(users).set({ pseudonim: nick }).where(eq(users.id, user.id));
 }

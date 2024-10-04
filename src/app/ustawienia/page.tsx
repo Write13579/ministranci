@@ -1,5 +1,9 @@
+"use client";
+
 import { House } from "lucide-react";
 import Link from "next/link";
+import { toast } from "sonner";
+import { Wyloguj } from "../auth-actions";
 
 export default function ustawienia() {
   return (
@@ -40,12 +44,16 @@ export default function ustawienia() {
           >
             x
           </div>
-          <div
+          <button
             id="logout"
             className="border-2 border-red-500 rounded-lg py-2.5 px-3 font-semibold bg-red-300 text-red-800"
+            onClick={async () => {
+              await Wyloguj();
+              toast("Wylogowano pomyślnie!");
+            }}
           >
             Wyloguj się
-          </div>
+          </button>
         </div>
       </div>
     </div>

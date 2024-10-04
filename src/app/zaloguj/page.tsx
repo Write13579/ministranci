@@ -85,9 +85,9 @@ export default function pageZaloguj() {
               )}
             />
 
-            <div id="zmienHasloBtn" className="flex justify-center">
+            <div id="zalogujBtn" className="flex justify-center">
               <Button type="submit" className="font-bold">
-                Zmień Hasło
+                Zaloguj
               </Button>
             </div>
           </form>

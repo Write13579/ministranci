@@ -7,6 +7,7 @@ import MenuBar from "./MenuBar";
 import ProfileBar from "./ProfileBar";
 import { Toaster } from "@/components/ui/sonner";
 import { getMe } from "./authutils";
+import AuthProvider from "@/lib/auth";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -38,7 +39,9 @@ export default async function RootLayout({
           </h1>
           <ProfileBar user={user} />
         </div>
-        {children} <Toaster />
+        <AuthProvider user={user}>
+          {children} <Toaster />
+        </AuthProvider>
       </body>
     </html>
   );

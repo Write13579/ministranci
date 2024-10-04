@@ -1,17 +1,24 @@
 import { BookOpen, Calendar, CalendarX, Info, Trophy } from "lucide-react";
 import Link from "next/link";
+import { getMe } from "./authutils";
 
-export default function Home() {
+export default async function Home() {
   const dzien = new Date().getDate();
   const miesiacx = new Date().getMonth() + 1;
   const miesiac = miesiacx < 10 ? "0" + miesiacx : miesiacx;
   const rok = new Date().getFullYear();
   const dzisiaj = dzien + "." + miesiac + "." + rok + "r.";
 
+  const user = await getMe();
+
+  const firstName = user?.name.split(" ")[0];
+
   return (
     <div id="alles" className="px-4">
       <p id="data">{dzisiaj}</p>
-      <h1 className="py-12 text-4xl">Szczęść Boże, Patryk!</h1>
+      <h1 className="py-12 text-4xl">
+        Szczęść Boże, {user === null ? "ministrancie" : firstName}!
+      </h1>
       <div
         id="infoKafelek"
         className="border-2 border-gray-600/40 p-5 rounded-lg flex

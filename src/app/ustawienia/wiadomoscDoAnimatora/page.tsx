@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
 
-export default function wiadomoscDoAnimatora() {
+export default function WiadomoscDoAnimatora() {
   const [wiadomosc, setwiadomosc] = useState<string>("");
   return (
     <div id="wraper" className="relative">

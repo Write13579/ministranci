@@ -13,14 +13,18 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { Textarea } from "@/components/ui/textarea";
-import { User } from "@/lib/database/scheme";
 import { AvatarImage } from "@radix-ui/react-avatar";
 import { House, PencilLine, UserIcon } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
+import { zmienNick } from "../auth-actions";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/lib/auth";
 
-export default function Statystyki({ user }: { user: User | null }) {
+export default function Statystyki() {
+  const user = useAuth();
+
   //statystyki
   const chartConfig = {
     userWynik: {
@@ -43,7 +47,8 @@ export default function Statystyki({ user }: { user: User | null }) {
 
   //pseudonim
   const [editingNick, setEditingNick] = useState<boolean>(false);
-  const [nick, setNick] = useState<string>("ministrant");
+  const [nick, setNick] = useState<string>(user?.pseudonim ?? "ministrant");
+  const router = useRouter();
 
   return (
     <div id="wraper" className="relative">
@@ -75,11 +80,13 @@ export default function Statystyki({ user }: { user: User | null }) {
                 <Button
                   size={"icon"}
                   className="size-5 ml-1.5 absolute top-0.5"
-                  onClick={() => {
+                  onClick={async () => {
                     setEditingNick(false);
                     if (nick === "") {
-                      setNick("ministrant");
+                      setNick(nick === "" ? user?.pseudonim ?? "" : nick);
                     }
+                    await zmienNick(nick === "" ? user?.pseudonim ?? "" : nick);
+                    router.refresh();
                   }}
                 >
                   <PencilLine className="size-4" />
@@ -88,7 +95,7 @@ export default function Statystyki({ user }: { user: User | null }) {
             ) : (
               <div id="pseudonimPlace" className="mt-1 relative">
                 <span id="pseudonim" className="text-gray-500 italic">
-                  {nick}
+                  {user?.pseudonim}
                 </span>
                 <Button
                   size={"icon"}

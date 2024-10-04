@@ -19,6 +19,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { toast } from "sonner";
+import { Wyloguj } from "./auth-actions";
 
 export default function ProfileBar({ user }: { user: User | null }) {
   const [opened, setOpened] = useState(false);
@@ -68,7 +70,11 @@ export default function ProfileBar({ user }: { user: User | null }) {
                 <Button
                   id="logout"
                   variant="destructive"
-                  onClick={() => setOpened(false)}
+                  onClick={async () => {
+                    setOpened(false);
+                    await Wyloguj();
+                    toast("Wylogowano pomyślnie!");
+                  }}
                 >
                   <LogOut />
                 </Button>
