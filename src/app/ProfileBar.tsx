@@ -10,7 +10,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { User } from "@/lib/database/scheme";
 import {
   ChartNoAxesCombined,
   CircleUser,
@@ -21,10 +20,12 @@ import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Wyloguj } from "./auth-actions";
+import { useAuth } from "@/lib/auth";
 
-export default function ProfileBar({ user }: { user: User | null }) {
+export default function ProfileBar() {
+  const user = useAuth();
   const [opened, setOpened] = useState(false);
-  if (!user) {
+  if (!user || user == null) {
     return (
       <Link href={"/zaloguj"}>
         <Button variant="ghost" size="icon">

@@ -1,5 +1,6 @@
 "use client";
 
+import sprawdzCzyZalogowany from "@/app/sprawdzCzyZalogowany";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,6 +12,9 @@ import { toast } from "sonner";
 export default function WiadomoscDoAnimatora() {
   const [wiadomosc, setwiadomosc] = useState<string>("");
 
+  if (!sprawdzCzyZalogowany()) {
+    return;
+  }
   return (
     <div id="wraper" className="relative">
       <Link href="/ustawienia" className="mx-5 flex absolute top-1">

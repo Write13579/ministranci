@@ -19,11 +19,17 @@ import Link from "next/link";
 import { useState } from "react";
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
 import { zmienNick } from "../auth-actions";
-import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth";
+import sprawdzCzyZalogowany from "../sprawdzCzyZalogowany";
+import { useRouter } from "next/navigation";
 
 export default function Statystyki() {
   const user = useAuth();
+  const router = useRouter();
+
+  if (!sprawdzCzyZalogowany()) {
+    return;
+  }
 
   //statystyki
   const chartConfig = {
@@ -48,7 +54,6 @@ export default function Statystyki() {
   //pseudonim
   const [editingNick, setEditingNick] = useState<boolean>(false);
   const [nick, setNick] = useState<string>(user?.pseudonim ?? "ministrant");
-  const router = useRouter();
 
   return (
     <div id="wraper" className="relative">

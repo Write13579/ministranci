@@ -29,17 +29,17 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} antialiased bg-gray-200`}>
-        <div
-          id="topNavbar"
-          className=" w-full bg-gray-300 p-4 items-center justify-between flex mb-4"
-        >
-          <MenuBar />
-          <h1 id="title" className="text-xl font-semibold animate-Shake">
-            <Link href="/">Panel Ministrancki</Link>
-          </h1>
-          <ProfileBar user={user} />
-        </div>
         <AuthProvider user={user}>
+          <div
+            id="topNavbar"
+            className=" w-full bg-gray-300 p-4 items-center justify-between flex mb-4"
+          >
+            <MenuBar />
+            <h1 id="title" className="text-xl font-semibold animate-Shake">
+              <Link href="/">Panel Ministrancki</Link>
+            </h1>
+            <ProfileBar />
+          </div>
           {children} <Toaster />
         </AuthProvider>
       </body>

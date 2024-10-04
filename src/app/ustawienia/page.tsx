@@ -4,8 +4,12 @@ import { House } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 import { Wyloguj } from "../auth-actions";
+import sprawdzCzyZalogowany from "../sprawdzCzyZalogowany";
 
 export default function ustawienia() {
+  if (!sprawdzCzyZalogowany()) {
+    return;
+  }
   return (
     <div id="wraper" className="relative">
       <Link href="/" className="mx-5 flex absolute top-1">
