@@ -32,12 +32,14 @@ export default function ustawienia() {
               Anonimowa wiadomość do animatora
             </div>
           </Link>
-          <div
-            id=""
-            className="border-2 border-black/30 rounded-lg py-2.5 px-3 font-semibold bg-gray-300"
-          >
-            x
-          </div>
+          <Link href={"ustawienia/createUser"}>
+            <div
+              id="createUser"
+              className="border-2 border-blue-500 rounded-lg py-2.5 px-3 font-semibold bg-blue-300 text-blue-800"
+            >
+              Stwórz ministanta
+            </div>
+          </Link>
           <div
             id=""
             className="border-2 border-black/30 rounded-lg py-2.5 px-3 font-semibold bg-gray-300"

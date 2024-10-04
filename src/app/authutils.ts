@@ -41,8 +41,6 @@ export async function getMe() {
     });
     return user || null;
   } catch (e) {
-    console.log(e);
-
     return null;
   }
 }
