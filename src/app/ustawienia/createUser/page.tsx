@@ -16,7 +16,6 @@ import {
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Undo2 } from "lucide-react";
-import sprawdzCzyZalogowany from "@/app/sprawdzCzyZalogowany";
 import { UserRanga } from "@/lib/database/scheme";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -40,11 +39,6 @@ import {
 } from "@/components/ui/alert-dialog";
 
 export default function CreateUser() {
-  const zalogowany = sprawdzCzyZalogowany();
-  if (!zalogowany) {
-    return;
-  }
-
   const [createdPopupOpen, setCreatedPopupOpen] = useState(false);
   const [createdUser, setCreatedUser] = useState<{
     login: string;
