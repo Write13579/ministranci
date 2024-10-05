@@ -142,7 +142,11 @@ export default function ZmienHaslo() {
               )}
             />
             <div id="zmienHasloBtn" className="flex justify-center">
-              <Button type="submit" className="font-bold">
+              <Button
+                type="submit"
+                className="font-bold"
+                loading={form.formState.isSubmitting}
+              >
                 Zmień Hasło
               </Button>
             </div>
