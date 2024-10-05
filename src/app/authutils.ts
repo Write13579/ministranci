@@ -24,7 +24,7 @@ export async function encode(user: User) {
   const iat = Math.floor(Date.now() / 1000);
   const exp = new Date();
 
-  exp.setDate(exp.getDate() + 30);
+  exp.setDate(exp.getDate() + 8);
   exp.setHours(0, 0, 0, 0);
 
   const token = await new jose.SignJWT({ ...payload })

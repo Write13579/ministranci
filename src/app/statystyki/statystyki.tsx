@@ -116,11 +116,14 @@ export default function Statystyki() {
               </Button>
             </div>
           </div>
-          <div id="ranga" className="grid grid-cols-1 grid-rows-1 my-1 w-44">
-            <Badge className="bg-red-600 flex justify-center hover:bg-red-700">
-              Animator
-            </Badge>
-          </div>
+          {user && (
+            <div id="ranga" className="grid grid-cols-1 grid-rows-1 my-1 w-44">
+              <Badge className="bg-red-600 flex justify-center hover:bg-red-700">
+                {user.ranga[0] + user.ranga.toLowerCase().slice(1)}
+              </Badge>
+            </div>
+          )}
+
           <div id="badges" className=" my-3 grid gap-2 grid-cols-2">
             <Badge className="bg-yellow-600 flex justify-center hover:bg-yellow-700">
               2 miejsce sierpień 2024

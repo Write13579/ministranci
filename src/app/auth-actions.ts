@@ -20,7 +20,13 @@ export async function sprawdzLogowanie(login: string, password: string) {
     return [{ field: "haslo", error: "podane hasło jest nieprawidłowe" }];
   }
   const token = await encode(user);
-  cookies().set("JWTToken", token);
+
+  const exp = new Date();
+
+  exp.setDate(exp.getDate() + 8);
+  exp.setHours(0, 0, 0, 0);
+
+  cookies().set("JWTToken", token, { expires: exp });
   return [];
 }
 

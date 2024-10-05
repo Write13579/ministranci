@@ -4,8 +4,12 @@ import { House } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 import { Wyloguj } from "../auth-actions";
+import { useAuth } from "@/lib/auth";
+import { Button } from "@/components/ui/button";
+import NapiszInformacje from "../informacje/NapiszInformacje";
 
 export default function Ustawienia() {
+  const user = useAuth();
   return (
     <div id="wraper" className="relative">
       <Link href="/" className="mx-5 flex absolute top-1">
@@ -32,14 +36,20 @@ export default function Ustawienia() {
               Anonimowa wiadomość do animatora
             </div>
           </Link>
-          <Link href={"ustawienia/createUser"}>
-            <div
-              id="createUser"
-              className="border-2 border-blue-500 rounded-lg py-2.5 px-3 font-semibold bg-blue-300 text-blue-800"
-            >
-              Stwórz ministanta
+          {user!.admin && (
+            <div id="dlaAdmina" className="gap-3 grid">
+              <Link href={"ustawienia/createUser"}>
+                <div
+                  id="createUser"
+                  className="border-2 border-blue-500 rounded-lg py-2.5 px-3 font-semibold bg-blue-300 text-blue-800"
+                >
+                  Stwórz ministanta
+                </div>
+              </Link>
+
+              <NapiszInformacje />
             </div>
-          </Link>
+          )}
           <div
             id=""
             className="border-2 border-black/30 rounded-lg py-2.5 px-3 font-semibold bg-gray-300"
