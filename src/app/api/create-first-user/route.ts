@@ -1,6 +1,7 @@
 import { hashPassword } from "@/app/authutils";
 import { db } from "@/lib/database";
 import { UserRanga, users } from "@/lib/database/scheme";
+import { generateRandomString } from "@/lib/utils";
 import { count } from "drizzle-orm";
 
 export async function GET() {
@@ -18,17 +19,6 @@ export async function GET() {
     admin: true,
   });
   return Response.json({ password });
-}
-
-export function generateRandomString(length: number): string {
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let result = "";
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length);
-    result += characters[randomIndex];
-  }
-  return result;
 }
 
 export const dynamic = "force-dynamic";

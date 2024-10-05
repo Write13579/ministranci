@@ -5,7 +5,7 @@ import { UserRanga, users } from "@/lib/database/scheme";
 import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { encode, getMe, hashPassword, verifyPassword } from "./authutils";
-import { generateRandomString } from "./api/create-first-user/route";
+import { generateRandomString } from "@/lib/utils";
 
 export async function sprawdzLogowanie(login: string, password: string) {
   const user = await db.query.users.findFirst({
@@ -68,7 +68,7 @@ export async function stworzMinistranta(
   const user = await getMe();
 
   if (!user || !user.admin) {
-    return { data: null, errors: [] };
+    throw new Error("unauthorized");
   }
 
   if (
