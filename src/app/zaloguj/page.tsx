@@ -51,7 +51,8 @@ export default function PageZaloguj() {
       </h1>
       <div
         id="obramowowka tego gownoforma"
-        className="border-2 border-black/30 rounded-lg py-2.5 px-3 font-semibold bg-gray-300 m-7"
+        className="border-2 border-black/30 rounded-lg py-2.5 px-3 font-semibold bg-gray-300 m-7 sm:max-w-lg
+         sm:m-auto"
       >
         <Form {...form}>
           <form

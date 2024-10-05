@@ -6,6 +6,7 @@ import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { encode, getMe, hashPassword, verifyPassword } from "./authutils";
 import { generateRandomString } from "@/lib/utils";
+import { infos } from "@/lib/databaseInfo/scheme";
 
 export async function sprawdzLogowanie(login: string, password: string) {
   const user = await db.query.users.findFirst({
@@ -98,4 +99,28 @@ export async function stworzMinistranta(
   });
 
   return { data: { login, password }, errors: [] };
+}
+
+export async function napiszInformacje(tytul: string, tresc: string) {
+  const user = await getMe();
+
+  if (!user || !user.admin) {
+    throw new Error("unauthorized");
+  }
+
+  if (
+    tytul.length < 4 ||
+    tytul.length > 256 ||
+    tresc.length < 4 ||
+    tresc.length > 700
+  ) {
+    return { data: null, errors: [] };
+  }
+
+  await db.insert(infos).values({
+    tytul,
+    tresc,
+  });
+
+  return { errors: [] };
 }

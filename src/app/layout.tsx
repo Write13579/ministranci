@@ -27,7 +27,7 @@ export default async function RootLayout({
   const user = await getMe();
 
   return (
-    <html lang="en">
+    <html lang="pl">
       <body className={`${geistSans.variable} antialiased bg-gray-200`}>
         <AuthProvider user={user}>
           <div

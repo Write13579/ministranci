@@ -2,15 +2,52 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { z } from "zod";
+import { napiszInformacje } from "../auth-actions";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function NapiszInformacje() {
+  const infoSchema = z.object({
+    tytul: z
+      .string()
+      .min(4, { message: "Tytul musi mieć conajmniej 4 znaki." })
+      .max(256),
+
+    tresc: z
+      .string()
+      .min(4, { message: "Login musi mieć conajmniej 4 znaki." })
+      .max(700),
+  });
+
+  const form = useForm<z.infer<typeof infoSchema>>({
+    resolver: zodResolver(infoSchema),
+    defaultValues: {
+      tytul: "",
+      tresc: "",
+    },
+  });
+
+  async function onSubmit(values: z.infer<typeof infoSchema>) {
+    const res = await napiszInformacje(values.tytul, values.tresc);
+
+    if (!res.data) {
+      return;
+    }
+  }
   return (
     <Dialog>
       <DialogTrigger>
@@ -26,22 +63,52 @@ export default function NapiszInformacje() {
           <DialogTitle>Napisz informację</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              Tytuł
-            </Label>
-            <Input id="tytul" className="col-span-3" />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="username" className="text-right">
-              Treść
-            </Label>
-            <Input id="tresc" className="col-span-3" />
-          </div>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-8 m-6 mt-4"
+            >
+              <FormField
+                control={form.control}
+                name="tytul"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-bold">Tytuł</FormLabel>
+                    <FormControl>
+                      <Input placeholder={"Tytuł"} {...field} />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="tresc"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-bold">Treść</FormLabel>
+                    <FormControl>
+                      <Input placeholder={"Treść"} {...field} />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div id="zmienHasloBtn" className="flex justify-center">
+                <Button
+                  type="submit"
+                  className="font-bold"
+                  loading={form.formState.isSubmitting}
+                >
+                  Opublikuj informację
+                </Button>
+              </div>
+            </form>
+          </Form>
         </div>
-        <DialogFooter>
-          <Button type="submit">Dodaj Informację</Button>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
