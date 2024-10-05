@@ -68,7 +68,7 @@ export async function stworzMinistranta(
   const user = await getMe();
 
   if (!user || !user.admin) {
-    return { data: null, errors: [] };
+    throw new Error("unauthorized");
   }
 
   if (
