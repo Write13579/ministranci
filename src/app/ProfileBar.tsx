@@ -21,9 +21,12 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { Wyloguj } from "./auth-actions";
 import { useAuth } from "@/lib/auth";
+import { useRouter } from "next/navigation";
 
 export default function ProfileBar() {
   const user = useAuth();
+  const router = useRouter();
+
   const [opened, setOpened] = useState(false);
   if (!user || user == null) {
     return (
@@ -74,6 +77,7 @@ export default function ProfileBar() {
                   onClick={async () => {
                     setOpened(false);
                     await Wyloguj();
+                    router.push("/");
                     toast("Wylogowano pomyślnie!");
                   }}
                 >

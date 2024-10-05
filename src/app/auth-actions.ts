@@ -19,7 +19,7 @@ export async function sprawdzLogowanie(login: string, password: string) {
   if (!correctPassword) {
     return [{ field: "haslo", error: "podane hasło jest nieprawidłowe" }];
   }
-  const token = encode(user);
+  const token = await encode(user);
   cookies().set("JWTToken", token);
   return [];
 }
@@ -65,7 +65,24 @@ export async function stworzMinistranta(
   ranga: UserRanga,
   admin: boolean
 ) {
+  const user = await getMe();
+
+  if (!user || !user.admin) {
+    return { data: null, errors: [] };
+  }
+
+  if (
+    name.length < 4 ||
+    name.length > 50 ||
+    login.length < 4 ||
+    login.length > 50 ||
+    !Object.keys(UserRanga).includes(ranga)
+  ) {
+    return { data: null, errors: [] };
+  }
+
   const password = generateRandomString(8);
+
   await db.insert(users).values({
     login,
     name,
@@ -73,5 +90,6 @@ export async function stworzMinistranta(
     ranga,
     admin,
   });
-  return login + " " + password;
+
+  return { data: { login, password }, errors: [] };
 }

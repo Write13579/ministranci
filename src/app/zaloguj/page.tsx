@@ -88,7 +88,11 @@ export default function PageZaloguj() {
             />
 
             <div id="zalogujBtn" className="flex justify-center">
-              <Button type="submit" className="font-bold">
+              <Button
+                type="submit"
+                className="font-bold"
+                loading={form.formState.isSubmitting}
+              >
                 Zaloguj
               </Button>
             </div>

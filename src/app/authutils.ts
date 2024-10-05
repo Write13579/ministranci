@@ -1,5 +1,5 @@
 import * as bcrypt from "bcryptjs";
-import * as jwt from "jsonwebtoken";
+import * as jose from "jose";
 import { db } from "@/lib/database";
 import { eq } from "drizzle-orm";
 import { User, users } from "@/lib/database/scheme";
@@ -18,15 +18,32 @@ export async function verifyPassword(
 
 export type JWTPayload = Pick<User, "id" | "name">;
 
-export function encode(user: User) {
+export async function encode(user: User) {
   const payload: JWTPayload = { id: user.id, name: user.name };
-  const token = jwt.sign(payload, process.env.JWT_SECRET!);
+
+  const iat = Math.floor(Date.now() / 1000);
+  const exp = new Date();
+
+  exp.setDate(exp.getDate() + 30);
+  exp.setHours(0, 0, 0, 0);
+
+  const token = await new jose.SignJWT({ ...payload })
+    .setProtectedHeader({ alg: "HS256", typ: "JWT" })
+    .setExpirationTime(exp)
+    .setIssuedAt(iat)
+    .setNotBefore(iat)
+    .sign(new TextEncoder().encode(process.env.JWT_SECRET!));
+
   return token;
 }
 
-export function decode(token: string) {
-  const payload = jwt.verify(token, process.env.JWT_SECRET!) as JWTPayload;
-  return payload;
+export async function decode(token: string) {
+  const { payload } = await jose.jwtVerify(
+    token,
+    new TextEncoder().encode(process.env.JWT_SECRET!)
+  );
+
+  return payload as JWTPayload;
 }
 
 export async function getMe() {
@@ -35,7 +52,7 @@ export async function getMe() {
     return null;
   }
   try {
-    const payload = decode(token);
+    const payload = await decode(token);
     const user = await db.query.users.findFirst({
       where: eq(users.id, payload.id),
     });

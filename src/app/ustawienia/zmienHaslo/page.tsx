@@ -18,12 +18,8 @@ import Link from "next/link";
 import { Undo2 } from "lucide-react";
 import { zmienHaslo } from "@/app/auth-actions";
 import { toast } from "sonner";
-import sprawdzCzyZalogowany from "@/app/sprawdzCzyZalogowany";
 
 export default function ZmienHaslo() {
-  if (!sprawdzCzyZalogowany()) {
-    return;
-  }
   const formSchema = z
     .object({
       stareHaslo: z
@@ -146,7 +142,11 @@ export default function ZmienHaslo() {
               )}
             />
             <div id="zmienHasloBtn" className="flex justify-center">
-              <Button type="submit" className="font-bold">
+              <Button
+                type="submit"
+                className="font-bold"
+                loading={form.formState.isSubmitting}
+              >
                 Zmień Hasło
               </Button>
             </div>

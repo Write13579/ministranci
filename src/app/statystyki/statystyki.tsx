@@ -20,16 +20,11 @@ import { useState } from "react";
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
 import { zmienNick } from "../auth-actions";
 import { useAuth } from "@/lib/auth";
-import sprawdzCzyZalogowany from "../sprawdzCzyZalogowany";
 import { useRouter } from "next/navigation";
 
 export default function Statystyki() {
   const user = useAuth();
   const router = useRouter();
-
-  if (!sprawdzCzyZalogowany()) {
-    return;
-  }
 
   //statystyki
   const chartConfig = {
