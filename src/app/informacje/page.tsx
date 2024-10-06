@@ -1,6 +1,5 @@
-import { Button } from "@/components/ui/button";
 import { db } from "@/lib/database";
-import { House, Pin } from "lucide-react";
+import { House } from "lucide-react";
 import Link from "next/link";
 import { UsunButtonInformacje } from "./UsunInfoButton";
 import { TogglePinButtonInformacje } from "./TogglePinButtonInformacje";
@@ -43,12 +42,12 @@ export default async function PageInformacje() {
                 <div>{info.tresc}</div>
                 <div className="flex flex-col gap-1 mt-4 italic text-gray-500 text-sm">
                   <p>Opublikowano: {formatDate(info.createdAt)}</p>
-                  <p>Ostatnia aktualizacja: {formatDate(info.createdAt)}</p>
+                  <p>Ostatnia aktualizacja: {formatDate(info.updatedAt)}</p>
                 </div>
               </div>
               <div id="buttony" className="flex flex-col gap-6">
                 <TogglePinButtonInformacje id={info.id} pinned={info.pinned} />
-                {/**<Button size="icon">...</Button>*/}
+                {/**<Button size="icon"> EDIT </Button>*/}
                 <UsunButtonInformacje id={info.id} />
               </div>
             </div>

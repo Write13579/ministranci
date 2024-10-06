@@ -9,6 +9,10 @@ export async function middleware(request: NextRequest) {
     { url: "/ustawienia", admin: false },
     { url: "/ustawienia/wiadomoscDoAnimatora", admin: false },
     { url: "/ustawienia/zmienHaslo", admin: false },
+    { url: "/informacje", admin: false },
+    { url: "/materialy", admin: false },
+    { url: "/listaMinistrantow", admin: false },
+    { url: "/ranking", admin: false },
   ];
 
   const authPage = AUTH_PAGES.find((authPageUrl) =>

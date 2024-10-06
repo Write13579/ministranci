@@ -30,6 +30,12 @@ export async function napiszInformacje(tytul: string, tresc: string) {
 }
 
 export async function usunInformacje(id: number) {
+  const user = await getMe();
+
+  if (!user || !user.admin) {
+    throw new Error("unauthorized");
+  }
+
   await db.delete(infos).where(eq(infos.id, id));
 }
 
