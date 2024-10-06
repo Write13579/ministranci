@@ -6,6 +6,7 @@ import {
   varchar,
   timestamp,
   integer,
+  date,
 } from "drizzle-orm/pg-core";
 
 export const createEnum = <T extends { [key: string]: string }>(
@@ -36,7 +37,9 @@ export const users = pgTable("users", {
     .notNull(),
   bio: varchar("bio", { length: 256 }),
   wiek: integer("wiek"),
-  miesiacPrzystapienia: integer("miesiacPrzystapienia"),
+  miesiacPrzystapienia: date("miesiacPrzystapienia", {
+    mode: "date",
+  }),
   czasSluzby: integer("czasSluzby"),
 });
 

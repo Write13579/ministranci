@@ -5,7 +5,7 @@ import { infos, UserRanga, users } from "@/lib/database/scheme";
 import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { encode, getMe, hashPassword, verifyPassword } from "./authutils";
-import { generateRandomString } from "@/lib/utils";
+import { generateRandomString, obliczRozniceMiesiecy } from "@/lib/utils";
 
 export async function sprawdzLogowanie(login: string, password: string) {
   const user = await db.query.users.findFirst({
@@ -69,7 +69,9 @@ export async function stworzMinistranta(
   login: string,
   name: string,
   ranga: UserRanga,
-  admin: boolean
+  admin: boolean,
+  wiek: number,
+  miesiacPrzystapienia: Date
 ) {
   const user = await getMe();
 
@@ -88,6 +90,7 @@ export async function stworzMinistranta(
   }
 
   const password = generateRandomString(8);
+  const czasSluzby = obliczRozniceMiesiecy(miesiacPrzystapienia);
 
   await db.insert(users).values({
     login,
@@ -95,6 +98,9 @@ export async function stworzMinistranta(
     password: await hashPassword(password),
     ranga,
     admin,
+    wiek,
+    miesiacPrzystapienia,
+    czasSluzby,
   });
 
   return { data: { login, password }, errors: [] };

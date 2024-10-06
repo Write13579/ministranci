@@ -1,23 +1,28 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
-import { UserRanga } from "@/lib/database/scheme";
+import RangaBadge from "@/components/RangaBadge";
+import { User, UserRanga } from "@/lib/database/scheme";
 import { ColumnDef } from "@tanstack/react-table";
-import clsx from "clsx";
 
-export type Ministrant = {
-  id: number;
-  name: string;
-  pseudonim: string;
-  ranga: UserRanga;
-  bio: string | null;
-  wiek: number | null;
-  miesiacPrzystapienia: number | null;
-  czasSluzby: number | null;
-};
+// export type Ministrant = {
+//   id: number;
+//   name: string;
+//   pseudonim: string;
+//   ranga: UserRanga;
+//   bio: string | null;
+//   wiek: number | null;
+//   miesiacPrzystapienia: Date | null;
+//   czasSluzby: number | null;
+// };
 
-export const columns: ColumnDef<Ministrant>[] = [
-  { accessorKey: "name", header: "Imię i nazwisko" },
+export const columns: ColumnDef<User>[] = [
+  {
+    accessorKey: "name",
+    header: "Imię i nazwisko",
+    cell: ({ row }) => {
+      return <p className="font-semibold"> {row.getValue("name")} </p>;
+    },
+  },
   {
     accessorKey: "pseudonim",
     header: "Pseudonim",
@@ -26,26 +31,25 @@ export const columns: ColumnDef<Ministrant>[] = [
     accessorKey: "ranga",
     header: "Ranga",
     cell: ({ row }) => {
-      const value = row.getValue("ranga") as UserRanga;
-
-      return (
-        <Badge
-          className={clsx({
-            "bg-blue-500 hover:bg-blue-400": value === UserRanga.ALBA,
-            "bg-green-500 hover:bg-green-400": value === UserRanga.ANIMATOR,
-            "bg-yellow-500 hover:bg-yellow-400":
-              value === UserRanga.BEZKOLNIERZ,
-            "bg-black hover:bg-gray-700": value === UserRanga.CZARNY,
-            "bg-purple-500 hover:bg-purple-400": value === UserRanga.KANDYDAT,
-            "bg-indigo-500 hover:bg-indigo-400": value === UserRanga.KOLNIERZ,
-          })}
-        >
-          {value}
-        </Badge>
-      );
+      return <RangaBadge ranga={row.getValue("ranga") as UserRanga} />;
     },
   },
   { accessorKey: "wiek", header: "Wiek" },
-  { accessorKey: "miesiacPrzystapienia", header: "Miesiąc przystąpienia" },
+  {
+    accessorKey: "miesiacPrzystapienia",
+    header: "Miesiąc przystąpienia",
+    cell: ({ row }) => {
+      return (
+        <p>
+          {(row.getValue("miesiacPrzystapienia") as Date) &&
+            `${((row.getValue("miesiacPrzystapienia") as Date).getMonth() + 1)
+              .toString()
+              .padStart(2, "0")}.${(
+              row.getValue("miesiacPrzystapienia") as Date
+            ).getFullYear()}r.`}
+        </p>
+      );
+    },
+  },
   { accessorKey: "czasSluzby", header: "Czas służby (w miesiącach)" },
 ];

@@ -15,3 +15,25 @@ export function generateRandomString(length: number): string {
   }
   return result;
 }
+
+export const fixDate = (date: Date) => {
+  const timezoneOffset = date.getTimezoneOffset();
+  date.setMinutes(date.getMinutes() - timezoneOffset);
+  return date;
+};
+
+export function obliczRozniceMiesiecy(miesiącPrzystąpienia: Date): number {
+  const aktualnaData = new Date(); // Pobranie bieżącej daty
+
+  const rokPrzystąpienia = miesiącPrzystąpienia.getFullYear();
+  const miesiacPrzystąpienia = miesiącPrzystąpienia.getMonth(); // Zwraca miesiąc od 0 (styczeń) do 11 (grudzień)
+
+  const rokAktualny = aktualnaData.getFullYear();
+  const miesiacAktualny = aktualnaData.getMonth();
+
+  const totalMiesiącePrzystąpienia =
+    rokPrzystąpienia * 12 + miesiacPrzystąpienia;
+  const totalMiesiąceAktualne = rokAktualny * 12 + miesiacAktualny;
+
+  return totalMiesiąceAktualne - totalMiesiącePrzystąpienia; // Zwraca różnicę w miesiącach
+}

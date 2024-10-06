@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import { Undo2 } from "lucide-react";
+import { CalendarIcon, Undo2 } from "lucide-react";
 import { UserRanga } from "@/lib/database/scheme";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -37,6 +37,14 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { cn, fixDate, obliczRozniceMiesiecy } from "@/lib/utils";
+import { format } from "date-fns";
 
 export default function CreateUser() {
   const [createdPopupOpen, setCreatedPopupOpen] = useState(false);
@@ -56,6 +64,13 @@ export default function CreateUser() {
       .string()
       .min(4, { message: "Login musi mieć conajmniej 4 znaki." })
       .max(50),
+    miesiacPrzystapienia: z.date(),
+    wiek: z.coerce
+      .number({
+        required_error: "Calories is required",
+        invalid_type_error: "Calories must be a number",
+      })
+      .int(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -83,7 +98,9 @@ export default function CreateUser() {
       values.login,
       values.name,
       values.ranga,
-      values.admin
+      values.admin,
+      values.wiek,
+      fixDate(values.miesiacPrzystapienia)
     );
 
     if (!res.data) {
@@ -190,6 +207,77 @@ export default function CreateUser() {
               />
               <FormField
                 control={form.control}
+                name="wiek"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-bold">wiek</FormLabel>
+                    <FormControl>
+                      <Input placeholder={"Wiek"} type="number" {...field} />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="miesiacPrzystapienia"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Data przystąpienia</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "w-[240px] pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, "PPP")
+                            ) : (
+                              <span>Wybierz datę przystąpienia</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          disabled={(date) =>
+                            date > new Date() || date < new Date("1900-01-01")
+                          }
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="login"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-bold">Login</FormLabel>
+                    <FormControl>
+                      <Input placeholder={"Login"} {...field} />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
                 name="admin"
                 render={({ field }) => (
                   <FormItem>
@@ -208,20 +296,6 @@ export default function CreateUser() {
                           Admin
                         </Label>
                       </div>
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="login"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-bold">Login</FormLabel>
-                    <FormControl>
-                      <Input placeholder={"Login"} {...field} />
                     </FormControl>
 
                     <FormMessage />
