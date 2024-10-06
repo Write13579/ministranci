@@ -24,12 +24,12 @@ export default function NapiszInformacje() {
   const infoSchema = z.object({
     tytul: z
       .string()
-      .min(4, { message: "Tytul musi mieć conajmniej 4 znaki." })
+      .min(4, { message: "Tytuł musi mieć conajmniej 4 znaki." })
       .max(256),
 
     tresc: z
       .string()
-      .min(4, { message: "Login musi mieć conajmniej 4 znaki." })
+      .min(4, { message: "Treść musi mieć conajmniej 4 znaki." })
       .max(700),
   });
 

@@ -5,6 +5,7 @@ import {
   serial,
   varchar,
   timestamp,
+  integer,
 } from "drizzle-orm/pg-core";
 
 export const createEnum = <T extends { [key: string]: string }>(
@@ -34,6 +35,9 @@ export const users = pgTable("users", {
     .default("ministrant")
     .notNull(),
   bio: varchar("bio", { length: 256 }),
+  wiek: integer("wiek"),
+  miesiacPrzystapienia: integer("miesiacPrzystapienia"),
+  czasSluzby: integer("czasSluzby"),
 });
 
 export const infos = pgTable("infos", {

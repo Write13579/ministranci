@@ -28,7 +28,9 @@ export default async function RootLayout({
 
   return (
     <html lang="pl">
-      <body className={`${geistSans.variable} antialiased bg-gray-200`}>
+      <body
+        className={`${geistSans.variable} antialiased bg-gray-200 min-h-[100vh]`}
+      >
         <AuthProvider user={user}>
           <div
             id="topNavbar"

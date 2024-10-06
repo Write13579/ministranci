@@ -111,21 +111,31 @@ export default async function Home() {
           </div>
         </div>
       ) : (
-        <div id="unloggedin" className="grid gap-4">
-          <Link
-            href="/zaloguj"
-            className="border-2 border-[#1710cc]/40 p-5 justify-center flex rounded-lg items-center gap-2 flex-col bg-[#1710cc]/5"
-          >
-            <span>Zaloguj się</span>
-            <LogIn size={35} color="#1710cc" />
-          </Link>
-          <Link
-            href="/czytanie"
-            className="border-2 border-[#82311f]/40 p-5 justify-center flex rounded-lg items-center gap-2 flex-col bg-[#82311f]/5"
-          >
-            <span>dzisiejsze czytanie</span>
-            <BookOpen size={35} color="#82311f" />
-          </Link>
+        <div id="allesDla!user">
+          <div id="unloggedin" className="grid gap-4">
+            <Link
+              href="/zaloguj"
+              className="border-2 border-[#1710cc]/40 p-5 justify-center flex rounded-lg items-center gap-2 flex-col bg-[#1710cc]/5"
+            >
+              <span>Zaloguj się</span>
+              <LogIn size={35} color="#1710cc" />
+            </Link>
+            <Link
+              href="/czytanie"
+              className="border-2 border-[#82311f]/40 p-5 justify-center flex rounded-lg items-center gap-2 flex-col bg-[#82311f]/5"
+            >
+              <span>dzisiejsze czytanie</span>
+              <BookOpen size={35} color="#82311f" />
+            </Link>
+          </div>
+
+          <div id="obrazek" className="w-20 absolute right-5 bottom-5">
+            <img
+              src="/wavingPepe.gif"
+              alt="wavingPepe.gif"
+              className="w-full h-full scale-x-[-1]"
+            />
+          </div>
         </div>
       )}
     </div>
