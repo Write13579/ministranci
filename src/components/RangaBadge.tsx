@@ -5,16 +5,19 @@ import { UserRanga } from "@/lib/database/scheme";
 export default function RangaBadge({ ranga }: { ranga: string }) {
   return (
     <Badge
-      className={clsx({
-        "bg-red-500 hover:bg-red-400": ranga === UserRanga.ANIMATOR,
-        "bg-cyan-500 hover:bg-cyan-400": ranga === UserRanga.ALBA,
-        "bg-black hover:bg-gray-700": ranga === UserRanga.CZARNY,
-        "bg-indigo-500 hover:bg-indigo-400": ranga === UserRanga.KOLNIERZ,
-        "bg-purple-500 hover:bg-purple-400": ranga === UserRanga.BEZKOLNIERZ,
-        "bg-green-500 hover:bg-green-400": ranga === UserRanga.KANDYDAT,
-      })}
+      className={clsx(
+        {
+          "bg-red-600 hover:bg-red-500": ranga === UserRanga.ANIMATOR,
+          "bg-cyan-500 hover:bg-cyan-400": ranga === UserRanga.ALBA,
+          "bg-black hover:bg-gray-700": ranga === UserRanga.CZARNY,
+          "bg-indigo-500 hover:bg-indigo-400": ranga === UserRanga.KOLNIERZ,
+          "bg-purple-500 hover:bg-purple-400": ranga === UserRanga.BEZKOLNIERZ,
+          "bg-green-500 hover:bg-green-400": ranga === UserRanga.KANDYDAT,
+        },
+        "flex justify-center"
+      )}
     >
-      {ranga}
+      {ranga[0] + ranga.toLowerCase().slice(1)}
     </Badge>
   );
 }

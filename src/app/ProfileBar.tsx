@@ -1,6 +1,5 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -22,6 +21,7 @@ import { toast } from "sonner";
 import { Wyloguj } from "./auth-actions";
 import { useAuth } from "@/lib/auth";
 import { useRouter } from "next/navigation";
+import RangaBadge from "@/components/RangaBadge";
 
 export default function ProfileBar() {
   const user = useAuth();
@@ -47,12 +47,12 @@ export default function ProfileBar() {
         </SheetTrigger>
         <SheetContent side="right" className="w-[250px]">
           <SheetHeader>
-            <SheetTitle>{user.name}</SheetTitle>
-            <SheetDescription id="pseudonim">{user.pseudonim}</SheetDescription>
+            <SheetTitle className="flex justify-center">{user.name}</SheetTitle>
+            <SheetDescription id="pseudonim" className="flex justify-center">
+              {user.pseudonim}
+            </SheetDescription>
             <div className="flex flex-col m-1 p-2 gap-y-2">
-              <Badge variant="default" className="justify-center">
-                {user.ranga.toLowerCase()}
-              </Badge>
+              <RangaBadge ranga={user.ranga} />
               <span
                 id="punkty"
                 className="items-center text-center justify-center italic my-4"

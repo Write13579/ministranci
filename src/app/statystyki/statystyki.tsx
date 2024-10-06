@@ -21,6 +21,7 @@ import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
 import { zmienNick } from "../auth-actions";
 import { useAuth } from "@/lib/auth";
 import { useRouter } from "next/navigation";
+import RangaBadge from "@/components/RangaBadge";
 
 export default function Statystyki() {
   const user = useAuth();
@@ -118,9 +119,7 @@ export default function Statystyki() {
           </div>
           {user && (
             <div id="ranga" className="grid grid-cols-1 grid-rows-1 my-1 w-44">
-              <Badge className="bg-red-600 flex justify-center hover:bg-red-700">
-                {user.ranga[0] + user.ranga.toLowerCase().slice(1)}
-              </Badge>
+              <RangaBadge ranga={user.ranga} />
             </div>
           )}
 
