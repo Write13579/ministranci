@@ -1,4 +1,11 @@
-import { boolean, pgEnum, pgTable, serial, varchar } from "drizzle-orm/pg-core";
+import {
+  boolean,
+  pgEnum,
+  pgTable,
+  serial,
+  varchar,
+  timestamp,
+} from "drizzle-orm/pg-core";
 
 export const createEnum = <T extends { [key: string]: string }>(
   e: T
@@ -27,6 +34,18 @@ export const users = pgTable("users", {
     .default("ministrant")
     .notNull(),
   bio: varchar("bio", { length: 256 }),
+});
+
+export const infos = pgTable("infos", {
+  id: serial("id").primaryKey(),
+  tytul: varchar("tytul", { length: 256 }).notNull(),
+  tresc: varchar("tresc", { length: 700 }).notNull(),
+  pinned: boolean("pinned").default(false).notNull(),
+  createdAt: timestamp("createdAt", { mode: "date" }).defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt", { mode: "date" })
+    .defaultNow()
+    .$onUpdate(() => new Date())
+    .notNull(),
 });
 
 export type User = typeof users.$inferSelect;

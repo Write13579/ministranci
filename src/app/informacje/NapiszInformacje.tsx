@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
-import { napiszInformacje } from "../auth-actions";
 import {
   Form,
   FormControl,
@@ -19,6 +18,7 @@ import {
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { napiszInformacje } from "../info-actions";
 
 export default function NapiszInformacje() {
   const infoSchema = z.object({

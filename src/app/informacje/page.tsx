@@ -1,7 +1,28 @@
-import { House } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { db } from "@/lib/database";
+import { House, Pin } from "lucide-react";
 import Link from "next/link";
+import { UsunButtonInformacje } from "./UsunInfoButton";
+import { TogglePinButtonInformacje } from "./TogglePinButtonInformacje";
+import { desc } from "drizzle-orm";
+import { infos } from "@/lib/database/scheme";
 
-export default function PageInformacje() {
+export default async function PageInformacje() {
+  const allInfos = await db.query.infos.findMany({
+    orderBy: [desc(infos.pinned), desc(infos.createdAt)],
+  });
+
+  function formatDate(date: Date) {
+    const dzien = String(date.getDate()).padStart(2, "0");
+    const miesiac = String(date.getMonth() + 1).padStart(2, "0");
+    const rok = date.getFullYear();
+
+    const godzina = String(date.getHours()).padStart(2, "0");
+    const minuta = String(date.getMinutes()).padStart(2, "0");
+
+    return `${dzien}-${miesiac}-${rok} ${godzina}:${minuta}`;
+  }
+
   return (
     <div id="wraper" className="relative">
       <Link href="/" className="mx-5 flex absolute top-1">
@@ -12,42 +33,26 @@ export default function PageInformacje() {
           Informacje
         </h1>
         <div id="kafelki">
-          <div
-            id="info3"
-            className="border-2 border-black/50 rounded-xl p-3 m-3 bg-gray-300/60"
-          >
-            <h2 className="mb-3 font-semibold">?info Title3</h2>
-            <div id="tresc3">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem porro
-              nobis eligendi nam voluptate magni placeat delectus quo unde a
-              quis ab voluptas et, aperiam, est corporis voluptates quos
-              voluptatibus.
+          {allInfos.map((info) => (
+            <div
+              key={info.id}
+              className="border-2 border-black/50 rounded-xl p-3 m-3 bg-gray-300/60 flex justify-between items-center"
+            >
+              <div>
+                <h2 className="mb-3 font-semibold">{info.tytul}</h2>
+                <div>{info.tresc}</div>
+                <div className="flex flex-col gap-1 mt-4 italic text-gray-500 text-sm">
+                  <p>Opublikowano: {formatDate(info.createdAt)}</p>
+                  <p>Ostatnia aktualizacja: {formatDate(info.createdAt)}</p>
+                </div>
+              </div>
+              <div id="buttony" className="flex flex-col gap-6">
+                <TogglePinButtonInformacje id={info.id} pinned={info.pinned} />
+                {/**<Button size="icon">...</Button>*/}
+                <UsunButtonInformacje id={info.id} />
+              </div>
             </div>
-          </div>
-          <div
-            id="info2"
-            className="border-2 border-black/50 rounded-xl p-3 m-3 bg-gray-300/60"
-          >
-            <h2 className="mb-3 font-semibold">?info Title2</h2>
-            <div id="tresc2">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem porro
-              nobis eligendi nam voluptate magni placeat delectus quo unde a
-              quis ab voluptas et, aperiam, est corporis voluptates quos
-              voluptatibus.
-            </div>
-          </div>
-          <div
-            id="info1"
-            className="border-2 border-black/50 rounded-xl p-3 m-3 bg-gray-300/60"
-          >
-            <h2 className="mb-3 font-semibold">?info Title1</h2>
-            <div id="tresc1">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem porro
-              nobis eligendi nam voluptate magni placeat delectus quo unde a
-              quis ab voluptas et, aperiam, est corporis voluptates quos
-              voluptatibus.
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>

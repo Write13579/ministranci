@@ -1,6 +1,9 @@
 import { BookOpen, Calendar, CalendarX, Info, Trophy } from "lucide-react";
 import Link from "next/link";
 import { getMe } from "./authutils";
+import { db } from "@/lib/database";
+import { eq } from "drizzle-orm";
+import { infos } from "@/lib/database/scheme";
 
 export default async function Home() {
   const dzien = new Date().getDate();
@@ -13,25 +16,38 @@ export default async function Home() {
 
   const firstName = user?.name.split(" ")[0];
 
+  const pinnedInfo = await db.query.infos.findFirst({
+    where: eq(infos.pinned, true),
+  });
+
   return (
     <div id="alles" className="px-4">
       <p id="data">{dzisiaj}</p>
       <h1 className="py-12 text-4xl">
         Szczęść Boże, {user === null ? "ministrancie" : firstName}!
       </h1>
-      <div
-        id="infoKafelek"
-        className="border-2 border-gray-600/40 p-5 rounded-lg flex
+      {pinnedInfo ? (
+        <div
+          id="infoKafelek"
+          className="border-2 border-gray-600/40 p-5 rounded-lg flex
         justify-center items-center mb-8 bg-gray-600/5 flex-col"
-      >
-        <h1 className="mb-4 font-semibold italic">PRZYPIĘTA INFORMACJA</h1>
-        <div className="text-center">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ipsum
-          possimus adipisci ad obcaecati atque. Repudiandae earum impedit
-          delectus eos officiis repellendus voluptate, nulla sed mollitia
-          provident, asperiores dolores quod molestiae.
+        >
+          <h1 className="mb-4 font-semibold italic">PRZYPIĘTA INFORMACJA</h1>
+          <div className="text-center font-bold mb-3 mt-1">
+            {pinnedInfo.tytul}
+          </div>
+          <div className="text-center">{pinnedInfo.tresc}</div>
         </div>
-      </div>
+      ) : (
+        <div
+          id="infoKafelek"
+          className="border-2 border-gray-600/40 p-5 rounded-lg flex
+    justify-center items-center mb-8 bg-gray-600/5 flex-col"
+        >
+          <h1 className=" font-semibold italic">BRAK PRZYPIĘTEJ INFORMACJI</h1>
+        </div>
+      )}
+
       <div id="kafelki" className="grid grid-cols-2 gap-5">
         <div className="border-2 border-red-600/40 p-5 rounded-lg flex justify-center items-center gap-1 bg-red-600/5">
           <span>Punkty łącznie: </span>
