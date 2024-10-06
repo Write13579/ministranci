@@ -13,7 +13,7 @@ export function UsunButtonInformacje({ id }: { id: number }) {
       className="bg-red-600 hover:bg-red-500"
       onClick={async () => {
         await usunInformacje(id);
-        ruter.refresh;
+        ruter.refresh();
       }}
     >
       <Trash />
