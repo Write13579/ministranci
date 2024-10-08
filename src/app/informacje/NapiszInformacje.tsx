@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -19,8 +21,13 @@ import {
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { napiszInformacje } from "../info-actions";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function NapiszInformacje() {
+  const [opened, setOpened] = useState(false);
+
   const infoSchema = z.object({
     tytul: z
       .string()
@@ -40,16 +47,23 @@ export default function NapiszInformacje() {
       tresc: "",
     },
   });
+  const router = useRouter();
 
   async function onSubmit(values: z.infer<typeof infoSchema>) {
     const res = await napiszInformacje(values.tytul, values.tresc);
 
     if (!res.data) {
+      toast("Opublikowano wiadomość!");
+      setOpened(false);
+      form.reset();
+      router.push("/informacje");
+      router.refresh();
       return;
     }
   }
+
   return (
-    <Dialog>
+    <Dialog open={opened} onOpenChange={setOpened}>
       <DialogTrigger>
         <div
           id="createUser"

@@ -5,6 +5,8 @@ import { UsunButtonInformacje } from "./UsunInfoButton";
 import { TogglePinButtonInformacje } from "./TogglePinButtonInformacje";
 import { desc } from "drizzle-orm";
 import { infos } from "@/lib/database/scheme";
+import { getMe } from "../authutils";
+import NapiszInformacje from "./NapiszInformacje";
 
 export default async function PageInformacje() {
   const allInfos = await db.query.infos.findMany({
@@ -22,6 +24,8 @@ export default async function PageInformacje() {
     return `${dzien}-${miesiac}-${rok} ${godzina}:${minuta}`;
   }
 
+  const user = await getMe();
+
   return (
     <div id="wraper" className="relative">
       <Link href="/" className="mx-5 flex absolute top-1">
@@ -32,6 +36,9 @@ export default async function PageInformacje() {
           Informacje
         </h1>
         <div id="kafelki">
+          <div className="flex mx-10 mb-6 text-center justify-center">
+            <NapiszInformacje />
+          </div>
           {allInfos.map((info) => (
             <div
               key={info.id}
@@ -42,14 +49,19 @@ export default async function PageInformacje() {
                 <div>{info.tresc}</div>
                 <div className="flex flex-col gap-1 mt-4 italic text-gray-500 text-sm">
                   <p>Opublikowano: {formatDate(info.createdAt)}</p>
-                  <p>Ostatnia aktualizacja: {formatDate(info.updatedAt)}</p>
+                  {/*<p>Ostatnia aktualizacja: {formatDate(info.updatedAt)}</p>**/}
                 </div>
               </div>
-              <div id="buttony" className="flex flex-col gap-6">
-                <TogglePinButtonInformacje id={info.id} pinned={info.pinned} />
-                {/**<Button size="icon"> EDIT </Button>*/}
-                <UsunButtonInformacje id={info.id} />
-              </div>
+              {user?.admin && (
+                <div id="buttony" className="flex flex-col gap-6">
+                  <TogglePinButtonInformacje
+                    id={info.id}
+                    pinned={info.pinned}
+                  />
+                  {/**<Button size="icon"> EDIT </Button>*/}
+                  <UsunButtonInformacje id={info.id} />
+                </div>
+              )}
             </div>
           ))}
         </div>
