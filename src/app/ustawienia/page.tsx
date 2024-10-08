@@ -55,7 +55,7 @@ export default function Ustawienia() {
                   id="createUser"
                   className="border-2 border-blue-500 rounded-lg py-2.5 px-3 font-semibold bg-blue-300 text-blue-800"
                 >
-                  Punktacja
+                  Przyznaj punkty
                 </div>
               </Link>
             </div>

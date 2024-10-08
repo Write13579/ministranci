@@ -43,6 +43,8 @@ export const users = pgTable("users", {
   czasSluzby: integer("czasSluzby"),
 });
 
+export type User = typeof users.$inferSelect;
+
 export const infos = pgTable("infos", {
   id: serial("id").primaryKey(),
   tytul: varchar("tytul", { length: 256 }).notNull(),
@@ -55,4 +57,15 @@ export const infos = pgTable("infos", {
     .notNull(),
 });
 
-export type User = typeof users.$inferSelect;
+export const punktacje = pgTable("punktacje", {
+  id: serial("id").primaryKey(),
+  userId: integer("userId"),
+  niedziele: integer("niedziele").default(0).notNull(),
+  wTygodniu: integer("wTygodniu").default(0).notNull(),
+  nabozenstwa: integer("nabozenstwa").default(0).notNull(),
+  zbiorki: integer("zbiorki").default(0).notNull(),
+  dodatki: integer("dodatki").default(0).notNull(),
+  komentarz: varchar("komentarz", { length: 256 }),
+});
+
+export type Punktacja = typeof punktacje.$inferSelect;
