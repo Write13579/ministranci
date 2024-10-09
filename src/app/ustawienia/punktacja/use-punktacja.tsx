@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { PunktacjaData } from "./page";
 import { savePunktacja } from "./actions";
 import { useRouter } from "next/navigation";
@@ -11,6 +11,15 @@ export const usePunktacja = (initialData: PunktacjaData) => {
   );
 
   const [isSavingData, setIsSavingData] = useState(false);
+
+  useEffect(() => {
+    setData(
+      initialData.map((data) => ({
+        data,
+        edited: false,
+      }))
+    );
+  }, [initialData]);
 
   const updateData = <V extends keyof PunktacjaData[number]>(
     id: number,
@@ -42,7 +51,6 @@ export const usePunktacja = (initialData: PunktacjaData) => {
   const saveData = async () => {
     setIsSavingData(true);
     await savePunktacja(data);
-    setData((prevData) => prevData.map((row) => ({ ...row, edited: false })));
     setIsSavingData(false);
     router.refresh();
   };
