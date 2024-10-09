@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import {
   boolean,
   pgEnum,
@@ -24,6 +25,19 @@ export enum UserRanga {
 }
 
 export const userRangaEnum = pgEnum("UserRanga", createEnum(UserRanga));
+
+export enum PunktacjaTypNabozenstwa {
+  DEFAULT = "DEFAULT",
+  ROZANIEC = "ROZANIEC",
+  RORATY = "RORATY",
+  NIESZPORY = "NIESZPORY",
+  DROGA_KRZYZOWA = "DROGA_KRZYZOWA",
+}
+
+export const punktacjaTypNabozenstwaEnum = pgEnum(
+  "PunktacjaTypNabozenstwa",
+  createEnum(PunktacjaTypNabozenstwa)
+);
 
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
@@ -59,13 +73,27 @@ export const infos = pgTable("infos", {
 
 export const punktacje = pgTable("punktacje", {
   id: serial("id").primaryKey(),
-  userId: integer("userId"),
+  userId: integer("userId")
+    .references(() => users.id)
+    .notNull(),
   niedziele: integer("niedziele").default(0).notNull(),
   wTygodniu: integer("wTygodniu").default(0).notNull(),
   nabozenstwa: integer("nabozenstwa").default(0).notNull(),
   zbiorki: integer("zbiorki").default(0).notNull(),
   dodatki: integer("dodatki").default(0).notNull(),
   komentarz: varchar("komentarz", { length: 256 }),
+  miesiac: date("miesiac", {
+    mode: "date",
+  }).notNull(),
+  typNabozenstwa: punktacjaTypNabozenstwaEnum("typNabozenstwa").notNull(),
 });
 
 export type Punktacja = typeof punktacje.$inferSelect;
+
+export const usersRelations = relations(users, ({ many }) => ({
+  punktacje: many(punktacje),
+}));
+
+export const punktacjeRelations = relations(punktacje, ({ one }) => ({
+  user: one(users, { fields: [punktacje.userId], references: [users.id] }),
+}));
