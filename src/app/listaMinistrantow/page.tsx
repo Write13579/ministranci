@@ -14,7 +14,7 @@ export default async function pageListaMinistrantow() {
   const data = await getData();
   return (
     <div id="alles">
-      <h1 className="flex justify-center items-center text-3xl mb-2 font-bold italic">
+      <h1 className="flex justify-center items-center text-3xl mb-1 font-bold italic">
         LISTA MINISTRANTÓW
       </h1>
       <div className="container mx-auto py-10">

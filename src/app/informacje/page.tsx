@@ -7,6 +7,7 @@ import { desc } from "drizzle-orm";
 import { infos } from "@/lib/database/scheme";
 import { getMe } from "../authutils";
 import NapiszInformacje from "./NapiszInformacje";
+import clsx from "clsx";
 
 export default async function PageInformacje() {
   const allInfos = await db.query.infos.findMany({
@@ -32,8 +33,8 @@ export default async function PageInformacje() {
         <House />
       </Link>
       <div id="alles">
-        <h1 className="flex justify-center font-bold text-2xl m-5 mb-7">
-          Informacje
+        <h1 className="flex justify-center mb-5 text-3xl font-bold italic">
+          INFORMACJE
         </h1>
         <div id="kafelki">
           <div className="flex mx-10 mb-6 text-center justify-center">
@@ -42,7 +43,13 @@ export default async function PageInformacje() {
           {allInfos.map((info) => (
             <div
               key={info.id}
-              className="border-2 border-black/50 rounded-xl p-3 m-3 bg-gray-300/60 flex justify-between items-center"
+              className={clsx(
+                "border-2 border-black/50 rounded-xl p-3 m-3 bg-gray-300/60 flex justify-between items-center",
+                {
+                  "border-red-600/80 border-4 bg-red-300/15":
+                    info.pinned === true,
+                }
+              )}
             >
               <div>
                 <h2 className="mb-3 font-semibold">{info.tytul}</h2>
