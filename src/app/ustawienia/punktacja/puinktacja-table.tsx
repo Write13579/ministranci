@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import DateChanger from "./dateChanger";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { UserRanga } from "@/lib/database/scheme";
+import clsx from "clsx";
 
 export const PunktacjaTable = ({ data }: { data: PunktacjaData }) => {
   const {
@@ -25,6 +27,29 @@ export const PunktacjaTable = ({ data }: { data: PunktacjaData }) => {
         {
           accessorKey: "data.user.name",
           header: "ministrant",
+          cell: ({ row }) => (
+            <div className="flex flex-row justify-start mt-1 gap-2 items-center group relative pl-2.5">
+              {row.original.data.user.name}
+              <div
+                className={clsx("absolute left-0 h-full w-[0.20rem] ", {
+                  "bg-red-600 hover:bg-red-500":
+                    row.original.data.user.ranga === UserRanga.ANIMATOR,
+                  "bg-cyan-500 hover:bg-cyan-400":
+                    row.original.data.user.ranga === UserRanga.ALBA,
+                  "bg-black hover:bg-gray-700":
+                    row.original.data.user.ranga === UserRanga.CZARNY,
+                  "bg-indigo-500 hover:bg-indigo-400":
+                    row.original.data.user.ranga === UserRanga.KOLNIERZ,
+                  "bg-purple-500 hover:bg-purple-400":
+                    row.original.data.user.ranga === UserRanga.BEZKOLNIERZ,
+                  "bg-green-500 hover:bg-green-400":
+                    row.original.data.user.ranga === UserRanga.KANDYDAT,
+                })}
+              >
+                {/**⠀*/}
+              </div>
+            </div>
+          ),
         },
         {
           accessorKey: "data.niedziele",
