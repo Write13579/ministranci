@@ -4,10 +4,12 @@ import { Input } from "@/components/ui/input";
 import { DataTable } from "./data-tablePKT";
 import { usePunktacja } from "./use-punktacja";
 import { PunktacjaData } from "./page";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import DateChanger from "./dateChanger";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export const PunktacjaTable = ({ data }: { data: PunktacjaData }) => {
   const {
@@ -160,8 +162,27 @@ export const PunktacjaTable = ({ data }: { data: PunktacjaData }) => {
     [data]
   );
 
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set(name, value);
+
+      return params.toString();
+    },
+    [searchParams]
+  );
+
   return (
     <div className="flex flex-col gap-8">
+      <DateChanger
+        onChange={(newMonth) => {
+          router.push(pathname + "?" + createQueryString("miesiac", newMonth));
+        }}
+      />
+
       <Button
         disabled={punktacjaData.every((row) => !row.edited)}
         onClick={async () => {
@@ -169,6 +190,7 @@ export const PunktacjaTable = ({ data }: { data: PunktacjaData }) => {
           toast("Zapisano dane!");
         }}
         loading={isSavingData}
+        className="mx-8"
       >
         Zapisz
       </Button>
