@@ -26,8 +26,8 @@ async function getData(miesiac: string) {
   users.forEach(async (user) => {
     const punktacja = user.punktacje.find(
       (p) =>
-        p.miesiac.getMonth() === fixDate(new Date()).getMonth() &&
-        p.miesiac.getFullYear() === fixDate(new Date()).getFullYear()
+        p.miesiac.getMonth() === firstDayOfMonth.getMonth() &&
+        p.miesiac.getFullYear() === firstDayOfMonth.getFullYear()
     );
 
     if (!punktacja) {
@@ -57,10 +57,10 @@ export default async function punktacjaPage({
   const data = await getData(searchParams.miesiac);
   return (
     <div id="alles">
-      <h1 className="flex justify-center items-center text-3xl mb-6 font-bold italic">
+      <h1 className="flex justify-center items-center text-3xl font-bold italic">
         PRZYZNAJ PUNKTY
       </h1>
-      <div className="container mx-auto py-10">
+      <div className="container mx-auto pt-6">
         <PunktacjaTable data={data} />
       </div>
     </div>

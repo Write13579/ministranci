@@ -70,8 +70,8 @@ export async function stworzMinistranta(
   name: string,
   ranga: UserRanga,
   admin: boolean,
-  wiek: number,
-  miesiacPrzystapienia: Date
+  wiek?: number | null,
+  miesiacPrzystapienia?: Date | null
 ) {
   const user = await getMe();
 
@@ -90,7 +90,9 @@ export async function stworzMinistranta(
   }
 
   const password = generateRandomString(8);
-  const czasSluzby = obliczRozniceMiesiecy(miesiacPrzystapienia);
+  const czasSluzby = miesiacPrzystapienia
+    ? obliczRozniceMiesiecy(miesiacPrzystapienia)
+    : 0;
 
   await db.insert(users).values({
     login,

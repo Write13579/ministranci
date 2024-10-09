@@ -64,13 +64,14 @@ export default function CreateUser() {
       .string()
       .min(4, { message: "Login musi mieć conajmniej 4 znaki." })
       .max(50),
-    miesiacPrzystapienia: z.date(),
+    miesiacPrzystapienia: z.date().optional(),
     wiek: z.coerce
       .number({
         required_error: "Calories is required",
         invalid_type_error: "Calories must be a number",
       })
-      .int(),
+      .int()
+      .optional(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -100,9 +101,8 @@ export default function CreateUser() {
       values.ranga,
       values.admin,
       values.wiek,
-      fixDate(values.miesiacPrzystapienia)
+      values.miesiacPrzystapienia ? fixDate(values.miesiacPrzystapienia) : null
     );
-
     if (!res.data) {
       return;
     }

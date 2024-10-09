@@ -154,7 +154,16 @@ export const PunktacjaTable = ({ data }: { data: PunktacjaData }) => {
           accessorKey: "data.id",
           header: "suma",
           cell: ({ row }) => {
-            const wynik = 0;
+            const wynik =
+              (row.original.data.niedziele <= 4
+                ? row.original.data.niedziele * 5
+                : 4 * 5 + (row.original.data.niedziele - 4) * 3) +
+              (row.original.data.wTygodniu <= 4
+                ? row.original.data.wTygodniu * 5
+                : 4 * 5 + (row.original.data.wTygodniu - 4) * 3) +
+              row.original.data.nabozenstwa * 3 +
+              row.original.data.zbiorki * 4 +
+              row.original.data.dodatki;
             return <span>{wynik}</span>;
           },
         },
