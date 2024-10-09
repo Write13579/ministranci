@@ -15,6 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import clsx from "clsx";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -56,6 +57,10 @@ export function DataTable<TData, TValue>({
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow
+                className={clsx(
+                  (row.original as { edited: boolean }).edited &&
+                    "bg-yellow-100 hover:bg-yellow-50"
+                )}
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
               >
