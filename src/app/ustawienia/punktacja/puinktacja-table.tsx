@@ -7,9 +7,15 @@ import { PunktacjaData } from "./page";
 import { useMemo } from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 export const PunktacjaTable = ({ data }: { data: PunktacjaData }) => {
-  const { data: punktacjaData, updateData, saveData } = usePunktacja(data);
+  const {
+    data: punktacjaData,
+    updateData,
+    saveData,
+    isSavingData,
+  } = usePunktacja(data);
 
   const columns = useMemo(
     () =>
@@ -133,7 +139,7 @@ export const PunktacjaTable = ({ data }: { data: PunktacjaData }) => {
           header: "komentarz",
           cell: ({ row }) => (
             <Input
-              className="w-16"
+              className="w-64"
               type="text"
               value={row.original.data.komentarz || ""}
               onChange={(e) => {
@@ -156,7 +162,16 @@ export const PunktacjaTable = ({ data }: { data: PunktacjaData }) => {
 
   return (
     <div className="flex flex-col gap-8">
-      <Button onClick={saveData}>Zapisz</Button>
+      <Button
+        disabled={punktacjaData.every((row) => !row.edited)}
+        onClick={async () => {
+          await saveData();
+          toast("Zapisano dane!");
+        }}
+        loading={isSavingData}
+      >
+        Zapisz
+      </Button>
       <DataTable columns={columns} data={punktacjaData} />
     </div>
   );

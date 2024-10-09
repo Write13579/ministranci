@@ -7,6 +7,8 @@ export const usePunktacja = (initialData: PunktacjaData) => {
     initialData.map((data) => ({ data, edited: false }))
   );
 
+  const [isSavingData, setIsSavingData] = useState(false);
+
   const updateData = <V extends keyof PunktacjaData[number]>(
     id: number,
     dataKey: V,
@@ -15,15 +17,31 @@ export const usePunktacja = (initialData: PunktacjaData) => {
     setData((prevData) =>
       prevData.map((row) =>
         row.data.id === id
-          ? { data: { ...row.data, [dataKey]: value }, edited: true }
+          ? {
+              data: { ...row.data, [dataKey]: value },
+              edited: prevData.some(
+                (row) =>
+                  row.data.id === id &&
+                  Object.entries({ ...row.data, [dataKey]: value }).some(
+                    ([key, val]) =>
+                      val !==
+                      initialData.find((data) => data.id === id)![
+                        key as keyof PunktacjaData[number]
+                      ]
+                  )
+              ),
+            }
           : row
       )
     );
   };
 
   const saveData = async () => {
+    setIsSavingData(true);
     await savePunktacja(data);
+    setData((prevData) => prevData.map((row) => ({ ...row, edited: false })));
+    setIsSavingData(false);
   };
 
-  return { data, updateData, saveData };
+  return { data, updateData, saveData, isSavingData };
 };
