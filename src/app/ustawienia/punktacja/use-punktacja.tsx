@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { PunktacjaData } from "./page";
 import { savePunktacja } from "./actions";
+import { useRouter } from "next/navigation";
 
 export const usePunktacja = (initialData: PunktacjaData) => {
+  const router = useRouter();
+
   const [data, setData] = useState(
     initialData.map((data) => ({ data, edited: false }))
   );
@@ -41,6 +44,7 @@ export const usePunktacja = (initialData: PunktacjaData) => {
     await savePunktacja(data);
     setData((prevData) => prevData.map((row) => ({ ...row, edited: false })));
     setIsSavingData(false);
+    router.refresh();
   };
 
   return { data, updateData, saveData, isSavingData };
