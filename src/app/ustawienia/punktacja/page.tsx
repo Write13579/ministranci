@@ -19,7 +19,7 @@ async function getData(miesiac: string) {
     new Date(firstDayOfMonth.getFullYear(), firstDayOfMonth.getMonth() + 1, 0)
   );
 
-  console.log(firstDayOfMonth, lastDayOfMonth);
+  //console.log(firstDayOfMonth, lastDayOfMonth);
 
   const users = await db.query.users.findMany({ with: { punktacje: true } });
 

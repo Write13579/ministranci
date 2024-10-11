@@ -92,8 +92,26 @@ export type Punktacja = typeof punktacje.$inferSelect;
 
 export const usersRelations = relations(users, ({ many }) => ({
   punktacje: many(punktacje),
+  planNiedzielny: many(planNiedzielny),
 }));
 
 export const punktacjeRelations = relations(punktacje, ({ one }) => ({
   user: one(users, { fields: [punktacje.userId], references: [users.id] }),
+}));
+
+export const planNiedzielny = pgTable("planNiedzielny", {
+  id: serial("id").primaryKey(),
+  userId: integer("userId")
+    .references(() => users.id)
+    .notNull(),
+  naOsma: varchar("naOsma", { length: 256 }),
+  naDziesiata: varchar("naDziesiata", { length: 256 }),
+  naDwunasta: varchar("naDwunasta", { length: 256 }),
+  naSiedemnasta: varchar("naSiedemnasta", { length: 256 }),
+});
+
+export type PlanNiedzielny = typeof planNiedzielny.$inferSelect;
+
+export const planNiedzielnyRelations = relations(planNiedzielny, ({ one }) => ({
+  user: one(users, { fields: [planNiedzielny.userId], references: [users.id] }),
 }));
