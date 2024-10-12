@@ -1,22 +1,24 @@
+"use server";
+
 import { db } from "@/lib/database";
-import { PlanNiedzielny } from "@/lib/database/scheme";
-import { columns, DataTable } from "./data-tableNiedziela";
+import { getMe } from "../authutils";
+import TabelaNiedziela from "./tabelaNiedziela";
 
-  async function getData(): Promise<PlanNiedzielny[]> {
-    const users = await db.query.users.findMany({
-      with: { planNiedzielny: true },
-    });
-    const allPlanNiedzielny = await db.query.planNiedzielny.findMany({
-      with: { user: true },
-    });
+const user = getMe();
+export async function functionUserWithNiedziela() {
+  const userWithNiedziela = await db.query.users.findMany({
+    with: { planNiedzielny: true },
+  });
+  return userWithNiedziela;
+}
 
-    return allPlanNiedzielny;
-  }
+export type UserWithNiedziela = Awaited<
+  ReturnType<typeof functionUserWithNiedziela>
+>;
 
-  export default async function planNiedzielny() {
-    const data = await getData();
-    return (
-      <div className="container mx-auto py-10">
-        <DataTable columns={columns} data={data} />
-      </div>
-    )}
+export default async function planNiedzielny() {
+  const users = await db.query.users.findMany({
+    with: { planNiedzielny: true },
+  });
+  return <TabelaNiedziela users={users} />;
+}
