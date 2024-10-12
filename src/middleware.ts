@@ -13,6 +13,7 @@ export async function middleware(request: NextRequest) {
     { url: "/materialy", admin: false },
     { url: "/listaMinistrantow", admin: false },
     { url: "/ranking", admin: false },
+    { url: "/planNiedzielny", admin: false },
   ];
 
   const authPage = AUTH_PAGES.find((authPageUrl) =>

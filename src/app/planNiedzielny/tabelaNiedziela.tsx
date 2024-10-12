@@ -9,6 +9,8 @@ import clsx from "clsx";
 import { zapiszNaGodzine, wypiszZGodziny } from "./actionsNiedziela";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { House } from "lucide-react";
+import Link from "next/link";
 
 function naGodzine(planUsera: PlanNiedzielny, godzina: GodzinaNiedzielna) {
   switch (godzina) {
@@ -45,7 +47,11 @@ function ZapiszSieButton({
   }
 
   return (
-    <Button onClick={save} loading={saving}>
+    <Button
+      onClick={save}
+      loading={saving}
+      className="w-full mt-2.5 bg-green-600 hover:bg-green-500"
+    >
       Zapisz się
     </Button>
   );
@@ -68,7 +74,11 @@ function WypiszSieButton({
   }
 
   return (
-    <Button onClick={unsave} loading={unsaving}>
+    <Button
+      onClick={unsave}
+      loading={unsaving}
+      className="w-full mt-2.5 bg-red-600 hover:bg-red-500"
+    >
       Wypisz się
     </Button>
   );
@@ -76,8 +86,10 @@ function WypiszSieButton({
 
 export default function TabelaNiedziela({
   users,
+  userPlan,
 }: {
   users: UserWithNiedziela;
+  userPlan: PlanNiedzielny;
 }) {
   const me = useAuth();
   const router = useRouter();
@@ -85,61 +97,87 @@ export default function TabelaNiedziela({
   const [editing, setEditing] = useState(false);
 
   return (
-    <div>
-      <h1 className="flex justify-center items-center text-3xl mb-10 font-bold italic">
-        PLAN NIEDZIELNY
-      </h1>
-      <div className="mb-6 flex justify-center">
-        {!editing && (
-          <Button onClick={() => setEditing(true)}>Zmień swoją godzinę</Button>
-        )}
-      </div>
-      <div className="mx-4 border-3 border-black">
-        {Object.values(GodzinaNiedzielna).map((godzina) => (
-          <div className="grid grid-cols-3 border border-black" key={godzina}>
-            <div className="my-2">{godzina}</div>
-            {!editing ? (
-              <div className="col-span-2 border-2 border-x-black flex items-center gap-2">
-                {users
-                  .filter((user) => {
-                    if (!user.planNiedzielny) return false;
-                    return naGodzine(user.planNiedzielny, godzina);
-                  })
-                  .sort((u) => (u.id === me!.id ? -1 : 1))
-                  .map((userForGodzina) => (
-                    <span
-                      key={userForGodzina.id}
-                      className={clsx(
-                        me!.id === userForGodzina.id && "font-bold"
-                      )}
-                    >
-                      {userForGodzina.name}
-                    </span>
-                  ))}
+    <div id="wraper" className="relative">
+      <Link href="/" className="mx-5 flex absolute top-1">
+        <House />
+      </Link>
+      <div>
+        <h1 className="flex justify-center items-center text-3xl mb-10 font-bold italic">
+          PLAN NIEDZIELNY
+        </h1>
+        <div id="buttonZmianyGodziny" className="mb-6 flex justify-center">
+          {!editing ? (
+            <Button onClick={() => setEditing(true)}>
+              Zmień swoją godzinę
+            </Button>
+          ) : (
+            <Button onClick={() => setEditing(false)}>Anuluj</Button>
+          )}
+        </div>
+        <div id="calaTabela" className="mx-4 border-4 border-black rounded-md">
+          {Object.values(GodzinaNiedzielna).map((godzina) => (
+            <div
+              id="wiersze"
+              className="grid grid-cols-3 border border-black"
+              key={godzina}
+            >
+              <div id="godziny" className="mx-2 my-5 flex justify-center">
+                {godzina}
               </div>
-            ) : (
-              <div className="my-2 col-span-2">
-                <ZapiszSieButton
-                  onSave={() => {
-                    router.refresh();
-                    setEditing(false);
-                    toast(`Zapisano na godzinę: ${godzina}!`);
-                  }}
-                  godzina={godzina}
-                />
-
-                <WypiszSieButton
-                  onUnsave={() => {
-                    router.refresh();
-                    setEditing(false);
-                    toast(`Wypisano się z godziny: ${godzina}!`);
-                  }}
-                  godzina={godzina}
-                />
-              </div>
-            )}
-          </div>
-        ))}
+              {!editing ? (
+                <div
+                  id="usernames"
+                  className="col-span-2 border-2 border-l-black grid items-center justify-center gap-1 py-2 text-center"
+                >
+                  {users
+                    .filter((user) => {
+                      if (!user.planNiedzielny) return false;
+                      return naGodzine(user.planNiedzielny, godzina);
+                    })
+                    .map((userForGodzina) => (
+                      <span
+                        key={userForGodzina.id}
+                        className={clsx(
+                          me!.id === userForGodzina.id && "font-bold"
+                        )}
+                      >
+                        {userForGodzina.name}
+                      </span>
+                    ))}
+                </div>
+              ) : (
+                <div
+                  id="miniAlles"
+                  className="col-span-2 border-2 border-l-black"
+                >
+                  {naGodzine(userPlan, godzina) ? (
+                    <div className="px-2">
+                      <WypiszSieButton
+                        onUnsave={() => {
+                          router.refresh();
+                          setEditing(false);
+                          toast(`Wypisałeś się z godziny: ${godzina}!`);
+                        }}
+                        godzina={godzina}
+                      />
+                    </div>
+                  ) : (
+                    <div className="px-2">
+                      <ZapiszSieButton
+                        onSave={() => {
+                          router.refresh();
+                          setEditing(false);
+                          toast(`Zapisałeś się na godzinę: ${godzina}!`);
+                        }}
+                        godzina={godzina}
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

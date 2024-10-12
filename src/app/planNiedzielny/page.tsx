@@ -2,8 +2,10 @@
 
 import { db } from "@/lib/database";
 import TabelaNiedziela from "./tabelaNiedziela";
-
-export async function functionUserWithNiedziela() {
+import { getMe } from "../authutils";
+import { eq } from "drizzle-orm";
+import { planNiedzielny } from "@/lib/database/scheme";
+async function getUsersWithNiedziela() {
   const userWithNiedziela = await db.query.users.findMany({
     with: { planNiedzielny: true },
   });
@@ -11,12 +13,15 @@ export async function functionUserWithNiedziela() {
 }
 
 export type UserWithNiedziela = Awaited<
-  ReturnType<typeof functionUserWithNiedziela>
+  ReturnType<typeof getUsersWithNiedziela>
 >;
 
-export default async function planNiedzielny() {
-  const users = await db.query.users.findMany({
-    with: { planNiedzielny: true },
+export default async function planNiedzielnyPage() {
+  const users = await getUsersWithNiedziela();
+  const user = await getMe();
+  const userPlan = await db.query.planNiedzielny.findFirst({
+    where: eq(planNiedzielny.userId, user!.id),
   });
-  return <TabelaNiedziela users={users} />;
+  if (!userPlan) return null;
+  return <TabelaNiedziela users={users} userPlan={userPlan} />;
 }
