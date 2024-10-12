@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/lib/database";
-import { infos, UserRanga, users } from "@/lib/database/scheme";
+import { infos, planNiedzielny, UserRanga, users } from "@/lib/database/scheme";
 import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { encode, getMe, hashPassword, verifyPassword } from "./authutils";
@@ -94,15 +94,27 @@ export async function stworzMinistranta(
     ? obliczRozniceMiesiecy(miesiacPrzystapienia)
     : 0;
 
-  await db.insert(users).values({
-    login,
-    name,
-    password: await hashPassword(password),
-    ranga,
-    admin,
-    wiek,
-    miesiacPrzystapienia,
-    czasSluzby,
+  const insertData = await db
+    .insert(users)
+    .values({
+      login,
+      name,
+      password: await hashPassword(password),
+      ranga,
+      admin,
+      wiek,
+      miesiacPrzystapienia,
+      czasSluzby,
+    })
+    .returning({ insertedId: users.id });
+
+  await db.insert(planNiedzielny).values({
+    userId: insertData[0].insertedId,
+    sobotaNaSiedemnasta: false,
+    naOsma: false,
+    naDziesiata: false,
+    naDwunasta: false,
+    naSiedemnasta: false,
   });
 
   return { data: { login, password }, errors: [] };

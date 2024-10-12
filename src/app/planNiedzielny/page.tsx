@@ -1,10 +1,8 @@
 "use server";
 
 import { db } from "@/lib/database";
-import { getMe } from "../authutils";
 import TabelaNiedziela from "./tabelaNiedziela";
 
-const user = getMe();
 export async function functionUserWithNiedziela() {
   const userWithNiedziela = await db.query.users.findMany({
     with: { planNiedzielny: true },
