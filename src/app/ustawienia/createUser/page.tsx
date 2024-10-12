@@ -43,7 +43,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
-import { cn, fixDate, obliczRozniceMiesiecy } from "@/lib/utils";
+import { cn, fixDate } from "@/lib/utils";
 import { format } from "date-fns";
 
 export default function CreateUser() {

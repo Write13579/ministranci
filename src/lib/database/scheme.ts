@@ -104,14 +104,23 @@ export const planNiedzielny = pgTable("planNiedzielny", {
   userId: integer("userId")
     .references(() => users.id)
     .notNull(),
-  sobotaNaSiedemnasta: boolean("sobotaNaSiedemnasta"),
-  naOsma: boolean("naOsma"),
-  naDziesiata: boolean("naDziesiata"),
-  naDwunasta: boolean("naDwunasta"),
-  naSiedemnasta: boolean("naSiedemnasta"),
+  sobotaNaSiedemnasta: boolean("sobotaNaSiedemnasta").default(false).notNull(),
+  naOsma: boolean("naOsma").default(false).notNull(),
+  naDziesiata: boolean("naDziesiata").default(false).notNull(),
+  naDwunasta: boolean("naDwunasta").default(false).notNull(),
+  naSiedemnasta: boolean("naSiedemnasta").default(false).notNull(),
 });
 
 export type PlanNiedzielny = typeof planNiedzielny.$inferSelect;
+export type PlanNiedzielnyInsert = typeof planNiedzielny.$inferInsert;
+
+export enum GodzinaNiedzielna {
+  SOBOTA17 = "sobota 17:00",
+  OSMA = "8:00",
+  DZIESIATA = "10:00",
+  DWUNASTA = "12:00",
+  SIEDMNASTA = "17:00",
+}
 
 export const planNiedzielnyRelations = relations(planNiedzielny, ({ one }) => ({
   user: one(users, { fields: [planNiedzielny.userId], references: [users.id] }),
