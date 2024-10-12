@@ -83,7 +83,7 @@ function WypiszSieButton({
     </Button>
   );
 }
-//
+
 export default function TabelaNiedziela({
   users,
   userPlan,
