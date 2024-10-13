@@ -65,6 +65,14 @@ export async function zmienNick(nick: string) {
   await db.update(users).set({ pseudonim: nick }).where(eq(users.id, user.id));
 }
 
+export async function zmienBio(bio: string) {
+  const user = await getMe();
+  if (!user) {
+    throw new Error("unauthorized");
+  }
+  await db.update(users).set({ bio: bio }).where(eq(users.id, user.id));
+}
+
 export async function stworzMinistranta(
   login: string,
   name: string,
