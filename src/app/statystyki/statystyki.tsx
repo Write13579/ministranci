@@ -109,34 +109,63 @@ export default function Statystyki() {
                   <PencilLine className="size-4" />
                 </Button>
               </div>
-            )}<div id="obramowka" className="border-2 border-black/20 py-2 px-3 m-2 rounded-xl">{editingBio ? 
+            )}
             <div
-              id="bio"
-              className="grid w-full gap-1 my-4 justify-center items-center text-center"
-            ><div id="label">O mnie:</div>
-              <Textarea placeholder="Napisz coś o sobie" value={bio} onChange={e=>setBio(e.target.value)} />
-              <Button className="w-full" size="icon" onClick={async () => {
-                    setEditingBio(false);
-                    if (bio === "") {
-                      setBio(bio === "" ? user?.bio ?? "" : bio);
-                    }
-                    await zmienBio(bio === "" ? user?.bio ?? "" : bio);
-                    router.refresh();
-                  }}>
-                Zatwierdź
-              </Button>
-            </div>:<div id="bioPlace" className="grid relative w-full gap-1 my-4 justify-center items-center text-center"
-            ><div id="label">O mnie:</div>
-              <div>{user?.bio}</div>
-            <Button onClick={()=> setEditingBio(true)} size={"icon"} className="size-5 ml-1.5 absolute top-0.5 right-1"><PencilLine className="size-4"/></Button>
-            </div>}
-          </div>
-          {user && (
-            <div id="ranga" className="grid grid-cols-1 grid-rows-1 my-1 w-44">
-              <RangaBadge ranga={user.ranga} />
+              id="obramowka"
+              className="border-2 border-black/20 py-2 px-3 m-2 rounded-xl"
+            >
+              {editingBio ? (
+                <div
+                  id="bio"
+                  className="grid w-full gap-1 my-4 justify-center items-center text-center"
+                >
+                  <div id="label">O mnie:</div>
+                  <Textarea
+                    placeholder="Napisz coś o sobie"
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
+                  />
+                  <Button
+                    className="w-full"
+                    size="icon"
+                    onClick={async () => {
+                      setEditingBio(false);
+                      if (bio === "") {
+                        setBio(bio === "" ? user?.bio ?? "" : bio);
+                      }
+                      await zmienBio(bio === "" ? user?.bio ?? "" : bio);
+                      router.refresh();
+                    }}
+                  >
+                    Zatwierdź
+                  </Button>
+                </div>
+              ) : (
+                <div
+                  id="bioPlace"
+                  className="grid relative w-full gap-1 my-4 justify-center items-center text-center"
+                >
+                  <div id="label">O mnie:</div>
+                  <div>{user?.bio}</div>
+                  <Button
+                    onClick={() => setEditingBio(true)}
+                    size={"icon"}
+                    className="size-5 ml-1.5 absolute top-0.5 right-1"
+                  >
+                    <PencilLine className="size-4" />
+                  </Button>
+                </div>
+              )}
             </div>
-          )}
-</div>
+            {user && (
+              <div
+                id="ranga"
+                className="grid grid-cols-1 grid-rows-1 my-1 w-44"
+              >
+                <RangaBadge ranga={user.ranga} />
+              </div>
+            )}
+          </div>
           <div id="badges" className=" my-3 grid gap-2 grid-cols-2">
             <Badge className="bg-yellow-600 flex justify-center hover:bg-yellow-700">
               2 miejsce sierpień 2024

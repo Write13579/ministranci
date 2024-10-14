@@ -105,7 +105,7 @@ export default function TabelaNiedziela({
         <h1 className="flex justify-center items-center text-3xl mb-10 font-bold italic">
           PLAN NIEDZIELNY
         </h1>
-        <div id="buttonZmianyGodziny" className="mb-6 flex justify-center">
+        <div id="buttonZmianyGodziny" className="mb-9 flex justify-center">
           {!editing ? (
             <Button onClick={() => setEditing(true)}>
               Zmień swoją godzinę
@@ -121,7 +121,10 @@ export default function TabelaNiedziela({
               className="grid grid-cols-3 border border-black"
               key={godzina}
             >
-              <div id="godziny" className="mx-2 my-5 flex justify-center">
+              <div
+                id="godziny"
+                className="mx-2 my-5 flex justify-center items-center"
+              >
                 {godzina}
               </div>
               {!editing ? (
