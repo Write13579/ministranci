@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/carousel";
 import { House } from "lucide-react";
 import Link from "next/link";
+import React from "react";
 import { z } from "zod";
 
 const czytanieResponseSchema = z.discriminatedUnion("error", [
@@ -20,6 +21,29 @@ const czytanieResponseSchema = z.discriminatedUnion("error", [
     ewangelia: z.object({ title: z.string(), text: z.string() }),
   }),
 ]);
+
+function formatText(text: string): JSX.Element {
+  // First, replace all occurrences of \r\n\r\n\t with <div className="w-2 h-1" />
+  const replacedText = text.split("\r\n\r\n\t").map((part, index) => (
+    <React.Fragment key={index}>
+      {index > 0 && <div className="my-3" />}
+      {part.split("\t\t\t\t").map((subPart, subIndex) => (
+        <React.Fragment key={subIndex}>
+          {subIndex > 0 && <div className="my-3" />}
+          {/* Handle \n, \r\n, and \t replacements inside the subParts */}
+          {subPart.split(/\n|\r\n|\t/).map((innerPart, innerIndex) => (
+            <React.Fragment key={innerIndex}>
+              {innerIndex > 0 && <div />}
+              {innerPart}
+            </React.Fragment>
+          ))}
+        </React.Fragment>
+      ))}
+    </React.Fragment>
+  ));
+
+  return <>{replacedText}</>;
+}
 
 export default async function Czytanie() {
   const url = "https://czytanie-api.vercel.app/api";
@@ -57,7 +81,9 @@ export default async function Czytanie() {
                   Pierwsze czytanie:
                 </p>
                 <p className="my-1 italic">{data.czytanie1.title}</p>
-                <p className="leading-relaxed">{data.czytanie1.text}</p>
+                <p className="leading-relaxed">{data.czytanie1.text} </p>
+                <br />
+                Oto słowo Boże.
               </div>
             </CarouselItem>
             <CarouselItem>
@@ -66,7 +92,7 @@ export default async function Czytanie() {
                   Psalm:
                 </p>
                 <p className="my-1 italic">{data.psalm.title}</p>
-                <p className="leading-relaxed">{data.psalm.text}</p>
+                <p className="leading-relaxed">{formatText(data.psalm.text)}</p>
               </div>
             </CarouselItem>
             {data.czytanie2 && (
@@ -80,6 +106,8 @@ export default async function Czytanie() {
                   </p>
                   <p className="my-1 italic">{data.czytanie2.title}</p>
                   <p className="leading-relaxed">{data.czytanie2.text}</p>
+                  <br />
+                  Oto słowo Boże.
                 </div>
               </CarouselItem>
             )}
@@ -102,6 +130,8 @@ export default async function Czytanie() {
                 </p>
                 <p className="my-1 italic">{data.ewangelia.title}</p>
                 <p className="leading-relaxed">{data.ewangelia.text}</p>
+                <br />
+                Oto słowo Pańskie.
               </div>
             </CarouselItem>
           </CarouselContent>

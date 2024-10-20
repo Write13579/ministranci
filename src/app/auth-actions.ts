@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/lib/database";
-import { infos, planNiedzielny, UserRanga, users } from "@/lib/database/scheme";
+import { planNiedzielny, UserRanga, users } from "@/lib/database/scheme";
 import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { encode, getMe, hashPassword, verifyPassword } from "./authutils";

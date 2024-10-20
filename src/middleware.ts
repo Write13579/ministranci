@@ -14,6 +14,7 @@ export async function middleware(request: NextRequest) {
     { url: "/listaMinistrantow", admin: false },
     { url: "/ranking", admin: false },
     { url: "/planNiedzielny", admin: false },
+    { url: "/ustawienia/ustawKomusNoweHaslo", admin: false },
   ];
 
   const authPage = AUTH_PAGES.find((authPageUrl) =>

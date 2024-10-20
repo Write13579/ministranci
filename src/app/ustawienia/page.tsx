@@ -58,14 +58,17 @@ export default function Ustawienia() {
                   Przyznaj punkty
                 </div>
               </Link>
+              <Link href={"ustawienia/ustawKomusNoweHaslo"}>
+                <div
+                  id="createUser"
+                  className="border-2 border-blue-500 rounded-lg py-2.5 px-3 font-semibold bg-blue-300 text-blue-800"
+                >
+                  Resetuj ministantowi hasło
+                </div>
+              </Link>
             </div>
           )}
-          <div
-            id=""
-            className="border-2 border-black/30 rounded-lg py-2.5 px-3 font-semibold bg-gray-300"
-          >
-            x
-          </div>
+
           <button
             id="logout"
             className="border-2 border-red-500 rounded-lg py-2.5 px-3 font-semibold bg-red-300 text-red-800"

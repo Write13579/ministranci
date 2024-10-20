@@ -67,8 +67,8 @@ export default function CreateUser() {
     miesiacPrzystapienia: z.date().optional(),
     wiek: z.coerce
       .number({
-        required_error: "Calories is required",
-        invalid_type_error: "Calories must be a number",
+        required_error: "Wiek jest wymagany",
+        invalid_type_error: "Wpisz number",
       })
       .int()
       .optional(),

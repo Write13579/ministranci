@@ -1,9 +1,12 @@
+"use server";
+
 import * as bcrypt from "bcryptjs";
 import * as jose from "jose";
 import { db } from "@/lib/database";
 import { eq } from "drizzle-orm";
 import { User, users } from "@/lib/database/scheme";
 import { cookies } from "next/headers";
+import { generateRandomString } from "@/lib/utils";
 
 export async function hashPassword(password: string) {
   return await bcrypt.hash(password, 10);
@@ -60,4 +63,19 @@ export async function getMe() {
   } catch (e) {
     return null;
   }
+}
+
+export async function resetujHaslo(userIdDoZmiany: number) {
+  const user = await getMe();
+  if (!user) {
+    throw new Error("unauthorized");
+  }
+  const newPassword = generateRandomString(8);
+  const hashedNewPassword = await hashPassword(newPassword);
+
+  await db
+    .update(users)
+    .set({ password: hashedNewPassword })
+    .where(eq(users.id, userIdDoZmiany));
+  return newPassword;
 }
