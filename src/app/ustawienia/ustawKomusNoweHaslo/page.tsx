@@ -8,8 +8,8 @@ export default async function ustawKomusNoweHaslo() {
 
   return (
     <div id="alles">
-      <h1 className="flex justify-center items-center text-3xl mb-1 font-bold italic round">
-        RESETUJ KOMUŚ HASŁO
+      <h1 className="flex justify-center items-center text-3xl text-center mb-1 font-bold italic round">
+        RESETUJ MINISTRANTOWI HASŁO
       </h1>
       <div
         id="kwadrat"

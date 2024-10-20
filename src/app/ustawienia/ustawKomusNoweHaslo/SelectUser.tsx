@@ -57,7 +57,7 @@ export default function SelectUser({ users }: { users: User[] }) {
 
           <div>
             <div>
-              <b>Login:</b> {changingName}
+              <b>Ministrant:</b> {changingName}
             </div>
             <div>
               <b>Hasło:</b> {newPassword}
@@ -100,13 +100,13 @@ export default function SelectUser({ users }: { users: User[] }) {
               <CommandGroup>
                 {frameworks.map((framework) => (
                   <CommandItem
-                    onChange={() => setChangingName(framework.label)}
                     key={framework.value}
                     value={framework.value}
                     keywords={[framework.label]}
                     onSelect={(currentValue) => {
                       setValue(currentValue === value ? "" : currentValue);
                       setOpen(false);
+                      setChangingName(framework.label);
                     }}
                   >
                     <Check
