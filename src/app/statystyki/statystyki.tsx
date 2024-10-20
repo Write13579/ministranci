@@ -143,17 +143,19 @@ export default function Statystyki() {
               ) : (
                 <div
                   id="bioPlace"
-                  className="grid relative w-full gap-1 my-4 justify-center items-center text-center"
+                  className="grid  w-full gap-1 mt-1.5 mb-0.5 justify-center items-center text-center"
                 >
-                  <div id="label">O mnie:</div>
-                  <div>{user?.bio}</div>
-                  <Button
-                    onClick={() => setEditingBio(true)}
-                    size={"icon"}
-                    className="size-5 ml-1.5 absolute top-0.5 right-1"
-                  >
-                    <PencilLine className="size-4" />
-                  </Button>
+                  <div id="label">
+                    O mnie:
+                    <div className="max-w-96 break-all">{user?.bio}</div>
+                    <Button
+                      onClick={() => setEditingBio(true)}
+                      size={"icon"}
+                      className="size-5 mt-2"
+                    >
+                      <PencilLine className="size-4" />
+                    </Button>
+                  </div>
                 </div>
               )}
             </div>
