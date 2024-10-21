@@ -4,7 +4,7 @@ import Link from "next/link";
 import { House } from "lucide-react";
 import { DataTable } from "./data-table";
 import { columns } from "./columns";
-import { pobierzPunkty } from "./actions";
+import { pobierzPunkty } from "./ranking-actions";
 
 async function getData(): Promise<User[]> {
   // Fetch data from your API here.
@@ -15,8 +15,9 @@ async function getData(): Promise<User[]> {
 
 
 export default async function pageRanking() {
-  const sumaPunktow = await pobierzPunkty(1);
-
+  const sumyPunktow = await pobierzPunkty();
+  console.log(sumyPunktow);
+  
   const data = await getData();
   return (
     <div id="wraper" className="relative">
@@ -28,7 +29,7 @@ export default async function pageRanking() {
           RANKING
         </h1>
         <div className="container mx-auto py-10">
-          <DataTable columns={columns} data={data.map( (p)=> ({...p, sumaPunktow: sumaPunktow}))} />
+          <DataTable columns={columns} data={data.map((p)=> ({...p, sumyPunktow: sumyPunktow}))} />
         </div>
       </div>
     </div>
