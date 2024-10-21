@@ -3,6 +3,7 @@
 import RangaBadge from "@/components/RangaBadge";
 import { User, UserRanga } from "@/lib/database/scheme";
 import { ColumnDef } from "@tanstack/react-table";
+import { pobierzPunkty } from "./actions";
 
 // export type Ministrant = {
 //   id: number;
@@ -31,10 +32,10 @@ export const columns: ColumnDef<User>[] = [
     },
   },
   {
-    accessorKey: "allPoints",
+    accessorKey: "sumaPunktow",
     header: "Wszystkie punkty",
     cell: ({ row }) => {
-      return <p>{row.getValue("allPoints")}pkt</p>;
+      return <p>{row.getValue("sumaPunktow")}pkt</p>;
     },
   },
   { accessorKey: "odznaki", header: "Odznaki" },
