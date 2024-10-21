@@ -6,18 +6,20 @@ export async function pobierzPunkty() {
   const punktyUserowZAllMsc = await db.query.punktacje.findMany({
     with: { user: true },
   });
-  const tablicaWynikowMiesiaca = punktyUserowZAllMsc.map((user) => ({
+  const tablicaWynikowMiesiaca = punktyUserowZAllMsc.map((punktyDlaUsera) => ({
     punkty:
-      (user.niedziele <= 4
-        ? user.niedziele * 5
-        : 4 * 5 + (user.niedziele - 4) * 3) +
-      (user.wTygodniu <= 4
-        ? user.wTygodniu * 5
-        : 4 * 5 + (user.wTygodniu - 4) * 3) +
-      user.nabozenstwa * 3 +
-      user.zbiorki * 4 +
-      user.dodatki,
-    userId: user.id,
+      (punktyDlaUsera.niedziele <= 4
+        ? punktyDlaUsera.niedziele * 5
+        : 4 * 5 + (punktyDlaUsera.niedziele - 4) * 3) +
+      (punktyDlaUsera.wTygodniu <= 4
+        ? punktyDlaUsera.wTygodniu * 5
+        : 4 * 5 + (punktyDlaUsera.wTygodniu - 4) * 3) +
+      punktyDlaUsera.nabozenstwa * 3 +
+      punktyDlaUsera.zbiorki * 4 +
+      punktyDlaUsera.dodatki,
+    userId: punktyDlaUsera.userId,
   }));
+  console.log(tablicaWynikowMiesiaca);
+
   return tablicaWynikowMiesiaca;
 }

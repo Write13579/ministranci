@@ -13,11 +13,10 @@ async function getData(): Promise<User[]> {
   return allUsers;
 }
 
-
 export default async function pageRanking() {
   const sumyPunktow = await pobierzPunkty();
-  console.log(sumyPunktow);
-  
+  //console.log(sumyPunktow);
+
   const data = await getData();
   return (
     <div id="wraper" className="relative">
@@ -29,7 +28,10 @@ export default async function pageRanking() {
           RANKING
         </h1>
         <div className="container mx-auto py-10">
-          <DataTable columns={columns} data={data.map((p)=> ({...p, sumyPunktow: sumyPunktow}))} />
+          <DataTable
+            columns={columns}
+            data={data.map((p) => ({ ...p, sumyPunktow: sumyPunktow }))}
+          />
         </div>
       </div>
     </div>

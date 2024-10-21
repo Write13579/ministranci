@@ -40,13 +40,16 @@ export const columns: ColumnDef<User>[] = [
     header: "Wszystkie punkty",
     cell: ({ row }) => {
       const wynik = row.getValue("sumyPunktow") as punktyUserow[];
-      console.log(
-        wynik.filter((p) => p.userId === row.getValue("sumaPunktow"))
-      );
+      //console.log(wynik);
 
-      //return (
-      //  <p>{wynik.filter((p) => p.userId === getValue("sumaPunktow"))}pkt</p>
-      // );
+      const tablica = wynik.filter((p) => p.userId === row.original.id);
+      //console.log(tablica);
+
+      return (
+        <p className="italic">
+          {tablica.reduce((acc, current) => acc + current.punkty, 0)} pkt
+        </p>
+      );
     },
   },
   { accessorKey: "odznaki", header: "Odznaki" },
