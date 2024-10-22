@@ -93,6 +93,7 @@ export type Punktacja = typeof punktacje.$inferSelect;
 export const usersRelations = relations(users, ({ many, one }) => ({
   punktacje: many(punktacje),
   planNiedzielny: one(planNiedzielny),
+  planTygodniowy: many(planTygodniowy),
 }));
 
 export const punktacjeRelations = relations(punktacje, ({ one }) => ({
@@ -125,3 +126,43 @@ export enum GodzinaNiedzielna {
 export const planNiedzielnyRelations = relations(planNiedzielny, ({ one }) => ({
   user: one(users, { fields: [planNiedzielny.userId], references: [users.id] }),
 }));
+
+export enum GodzinaTygodniowa {
+  OSMA = "8:00",
+  OSIEMNASTA = "18:00",
+}
+
+export const godzinaTygodniowaEnum = pgEnum(
+  "GodzinaTygodniowa",
+  createEnum(GodzinaTygodniowa)
+);
+
+export enum DzienTygodnia {
+  PONIEDZIALEK = "pon",
+  WTOREK = "wt",
+  SRODA = "śr",
+  CZWARTEK = "czw",
+  PIATEK = "pt",
+  SOBOTA = "sob", //tu warunek, ze moze byc tylko o 8:00
+}
+
+export const DzienTygodniaEnum = pgEnum(
+  "DzienTygodnia",
+  createEnum(DzienTygodnia)
+);
+
+export const planTygodniowy = pgTable("planTygodniowy", {
+  id: serial("id").primaryKey(),
+  userId: integer("userId")
+    .references(() => users.id)
+    .notNull(),
+  GodzinaTygodniowa: godzinaTygodniowaEnum("godzinaTygodniowa").notNull(),
+  DzienTygodnia: DzienTygodniaEnum("dzienTygodnia").notNull(),
+});
+
+export const planTygodniowyRelations = relations(planTygodniowy, ({ one }) => ({
+  user: one(users, { fields: [planTygodniowy.userId], references: [users.id] }),
+}));
+
+export type planTygodniowy = typeof planTygodniowy.$inferSelect;
+export type PlanTygodniowyInsert = typeof planTygodniowy.$inferInsert;
