@@ -8,25 +8,31 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import ColorPicker from "./ColorPicker";
+import { MultiSelect } from "./MultiSelect";
+import { User } from "@/lib/database/scheme";
 
 const FormSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+  napisOdznaki: z.string().min(3, {
+    message: "Odznaka musi mieć conajmniej 3 litery",
   }),
+  kolorOdznaki: z.string(),
+  ministrant: z.array(z.string()),
 });
 
-export function AddInputOdznaki() {
+export function AddOdznaka({ ministranci }: { ministranci: User[] }) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      username: "",
+      napisOdznaki: "",
+      kolorOdznaki: "",
+      ministrant: [],
     },
   });
 
@@ -37,21 +43,62 @@ export function AddInputOdznaki() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
         <FormField
           control={form.control}
-          name="username"
+          name="napisOdznaki"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>Krótki napis na odznace</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input
+                  placeholder="np. Ministrant miesiąca sierpień 2024"
+                  {...field}
+                />
               </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
+
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <FormField
+          control={form.control}
+          name="kolorOdznaki"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Kolor odznaki</FormLabel>
+              <FormControl>
+                <ColorPicker {...field} />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="ministrant"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Komu przyznać?</FormLabel>
+              <FormControl>
+                <MultiSelect
+                  options={ministranci.map((ministrant) => ({
+                    label: ministrant.name,
+                    value: ministrant.id.toString(),
+                  }))}
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  placeholder="Wybierz ministrantów"
+                  variant="inverted"
+                  animation={2}
+                  maxCount={3}
+                  {...field}
+                />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit">Dodaj</Button>
       </form>
     </Form>
   );
