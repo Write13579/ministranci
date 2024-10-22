@@ -40,10 +40,8 @@ export const columns: ColumnDef<User>[] = [
     header: "Wszystkie punkty",
     cell: ({ row }) => {
       const wynik = row.getValue("sumyPunktow") as punktyUserow[];
-      //console.log(wynik);
 
       const tablica = wynik.filter((p) => p.userId === row.original.id);
-      //console.log(tablica);
 
       return (
         <p className="italic">

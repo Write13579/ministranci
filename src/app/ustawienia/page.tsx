@@ -58,6 +58,14 @@ export default function Ustawienia() {
                   Przyznaj punkty
                 </div>
               </Link>
+              <Link href={"ustawienia/przyznajOdznake"}>
+                <div
+                  id="createUser"
+                  className="border-2 border-blue-500 rounded-lg py-2.5 px-3 font-semibold bg-blue-300 text-blue-800"
+                >
+                  Przyznaj odznakę
+                </div>
+              </Link>
               <Link href={"ustawienia/ustawKomusNoweHaslo"}>
                 <div
                   id="createUser"
