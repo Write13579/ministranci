@@ -1,48 +1,26 @@
-export default function planTygodniowy() {
-  // enum HourOptions {
-  //   H8 = "8:00",
-  //   H18 = "18:00",
-  // }
+"use server";
 
-  // type DaneType = {
-  //   name: string;
-  //   weekday: string;
-  //   hour: HourOptions;
-  // };
-  // const dane: DaneType[] = [
-  //   { name: "patryk", weekday: "monday", hour: HourOptions.H8 },
-  //   { name: "andrzej", weekday: "wednesday", hour: HourOptions.H18 },
-  // ];
+import { db } from "@/lib/database";
+import TabelaTydzien from "./tabelaTydzien";
+import { getMe } from "../authutils";
+import { eq } from "drizzle-orm";
+import { planNiedzielny, planTygodniowy } from "@/lib/database/scheme";
 
-  return (
-    /**tu zrobic table a nie 200 spanow */ <div>
-      plan tygodniowy
-      <div
-        id="tabela"
-        className="grid grid-cols-7 grid-rows-3 [&>*]:border [&>*]:border-black"
-      >
-        <span></span>
-        <span>sobota</span>
-        <span>wtorek</span>
-        <span>środa</span>
-        <span>czwartek</span>
-        <span>piątek</span>
-        <span>sobota</span>
-        <span>8:00</span>
-        <span>adam</span>
-        <span>adam</span>
-        <span>adam</span>
-        <span>adam</span>
-        <span>adam</span>
-        <span>adam</span>
-        <span>18:00</span>
-        <span>adam</span>
-        <span>adam</span>
-        <span>adam</span>
-        <span>adam</span>
-        <span>adam</span>
-        <span>adam</span>
-      </div>
-    </div>
-  );
+async function getUsersWithTydzien() {
+  const userWithTydzien = await db.query.users.findMany({
+    with: { planTygodniowy: true },
+  });
+  return userWithTydzien;
+}
+
+export type UserWithTydzien = Awaited<ReturnType<typeof getUsersWithTydzien>>;
+
+export default async function planNiedzielnyPage() {
+  const users = await getUsersWithTydzien();
+  const user = await getMe();
+  const userPlan = await db.query.planTygodniowy.findFirst({
+    where: eq(planTygodniowy.userId, user!.id),
+  });
+  if (!userPlan) return null;
+  return <TabelaTydzien users={users} userPlan={userPlan} />;
 }
