@@ -60,6 +60,7 @@ export const columns: ColumnDef<UsersWithOdznaki[number]>[] = [
         <div id="badges" className="space-y-1">
           {row.original.odznakiToUsers.map((pivot) => (
             <Badge
+              key={pivot.odznakaId}
               style={{ backgroundColor: pivot.odznaka.kolor }}
               className="min-w-fit text-center text-nowrap"
             >

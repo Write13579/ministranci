@@ -126,7 +126,7 @@ export default function TabelaNiedziela({
                       godzina !== GodzinaTygodniowa.OSIEMNASTA)
                 )
                 .map((godzina) => (
-                  <div>
+                  <div key={godzina + dzien}>
                     <div className="font-bold text-center">
                       {[dzien, godzina].join(" ")}
                     </div>
