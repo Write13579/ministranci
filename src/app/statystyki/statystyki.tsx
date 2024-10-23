@@ -22,8 +22,13 @@ import { zmienBio, zmienNick } from "../auth-actions";
 import { useAuth } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import RangaBadge from "@/components/RangaBadge";
+import { Odznaka } from "@/lib/database/scheme";
 
-export default function Statystyki() {
+export default function Statystyki({
+  myBadges,
+}: {
+  myBadges: { odznaka: Odznaka }[];
+}) {
   const user = useAuth();
   const router = useRouter();
 
@@ -169,12 +174,14 @@ export default function Statystyki() {
             )}
           </div>
           <div id="badges" className=" my-3 grid gap-2 grid-cols-2">
-            <Badge className="bg-yellow-600 flex justify-center hover:bg-yellow-700">
-              2 miejsce sierpień 2024
-            </Badge>
-            <Badge className="bg-purple-500 flex justify-center hover:bg-purple-600">
-              1 miejsce różaniec 2023
-            </Badge>
+            {myBadges.map((pivot) => (
+              <Badge
+                key={pivot.odznaka.id}
+                style={{ backgroundColor: pivot.odznaka.kolor }}
+              >
+                {pivot.odznaka.napis}
+              </Badge>
+            ))}
           </div>
         </div>
         <div id="stats" className="my-6">

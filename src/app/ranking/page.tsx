@@ -6,12 +6,16 @@ import { DataTable } from "./data-table";
 import { columns } from "./columns";
 import { pobierzPunkty } from "./ranking-actions";
 
-async function getData(): Promise<User[]> {
+async function getData() {
   // Fetch data from your API here.
 
-  const allUsers = await db.query.users.findMany();
+  const allUsers = await db.query.users.findMany({
+    with: { odznakiToUsers: { with: { odznaka: true } } },
+  });
   return allUsers;
 }
+
+export type UsersWithOdznaki = Awaited<ReturnType<typeof getData>>;
 
 export default async function pageRanking() {
   const sumyPunktow = await pobierzPunkty();

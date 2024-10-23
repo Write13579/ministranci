@@ -8,6 +8,7 @@ import {
   timestamp,
   integer,
   date,
+  primaryKey,
 } from "drizzle-orm/pg-core";
 
 export const createEnum = <T extends { [key: string]: string }>(
@@ -94,6 +95,7 @@ export const usersRelations = relations(users, ({ many, one }) => ({
   punktacje: many(punktacje),
   planNiedzielny: one(planNiedzielny),
   planTygodniowy: many(planTygodniowy),
+  odznakiToUsers: many(odznakiToUsers),
 }));
 
 export const punktacjeRelations = relations(punktacje, ({ one }) => ({
@@ -166,3 +168,41 @@ export const planTygodniowyRelations = relations(planTygodniowy, ({ one }) => ({
 
 export type planTygodniowy = typeof planTygodniowy.$inferSelect;
 export type PlanTygodniowyInsert = typeof planTygodniowy.$inferInsert;
+
+export const odznaki = pgTable("odznaki", {
+  id: serial("id").primaryKey(),
+  napis: varchar("napis", { length: 255 }).notNull(),
+  kolor: varchar("kolor", { length: 10 }).notNull(),
+});
+
+export const odznakiToUsers = pgTable(
+  "badgesToUsers",
+  {
+    userId: integer("userId")
+      .notNull()
+      .references(() => users.id),
+    odznakaId: integer("odznakaId")
+      .notNull()
+      .references(() => odznaki.id),
+  },
+  (t) => ({
+    pk: primaryKey({ columns: [t.userId, t.odznakaId] }),
+  })
+);
+
+export const odznakiRelations = relations(odznaki, ({ many }) => ({
+  odznakiToUsers: many(odznakiToUsers),
+}));
+
+export const odznakiToUsersRelations = relations(odznakiToUsers, ({ one }) => ({
+  odznaka: one(odznaki, {
+    fields: [odznakiToUsers.odznakaId],
+    references: [odznaki.id],
+  }),
+  user: one(users, {
+    fields: [odznakiToUsers.userId],
+    references: [users.id],
+  }),
+}));
+
+export type Odznaka = typeof odznaki.$inferSelect;

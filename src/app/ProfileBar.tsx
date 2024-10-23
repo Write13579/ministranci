@@ -61,16 +61,17 @@ export default function ProfileBar() {
                 <span>100pkt</span>
               </span>
               <div id="buttony" className="gap-2 flex">
-                <Button id="statystyki" variant="outline">
-                  <Link href="/statystyki" onClick={() => setOpened(false)}>
+                {" "}
+                <Link href="/statystyki" onClick={() => setOpened(false)}>
+                  <Button id="statystyki" variant="outline">
                     <ChartNoAxesCombined />
-                  </Link>
-                </Button>
-                <Button id="ustawienia" variant="outline">
-                  <Link href="/ustawienia" onClick={() => setOpened(false)}>
+                  </Button>
+                </Link>{" "}
+                <Link href="/ustawienia" onClick={() => setOpened(false)}>
+                  <Button id="ustawienia" variant="outline">
                     <Settings />
-                  </Link>
-                </Button>
+                  </Button>
+                </Link>
                 <Button
                   id="logout"
                   variant="destructive"

@@ -17,13 +17,15 @@ import { Input } from "@/components/ui/input";
 import ColorPicker from "./ColorPicker";
 import { MultiSelect } from "./MultiSelect";
 import { User } from "@/lib/database/scheme";
+import { stworzIDodajOdznake } from "./badges-actions";
+import { toast } from "sonner";
 
 const FormSchema = z.object({
   napisOdznaki: z.string().min(3, {
     message: "Odznaka musi mieć conajmniej 3 litery",
   }),
   kolorOdznaki: z.string(),
-  ministrant: z.array(z.string()),
+  zbiorMinistrantow: z.array(z.string()),
 });
 
 export function AddOdznaka({ ministranci }: { ministranci: User[] }) {
@@ -32,20 +34,32 @@ export function AddOdznaka({ ministranci }: { ministranci: User[] }) {
     defaultValues: {
       napisOdznaki: "",
       kolorOdznaki: "",
-      ministrant: [],
+      zbiorMinistrantow: [],
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {}
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    await stworzIDodajOdznake(
+      data.napisOdznaki,
+      data.kolorOdznaki,
+      data.zbiorMinistrantow.map(Number)
+    );
+
+    toast("Odznaki zostały przyznane!");
+    form.reset();
+  }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-8 flex justify-center flex-col items-center w-full"
+      >
         <FormField
           control={form.control}
           name="napisOdznaki"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="w-80">
               <FormLabel>Krótki napis na odznace</FormLabel>
               <FormControl>
                 <Input
@@ -74,7 +88,7 @@ export function AddOdznaka({ ministranci }: { ministranci: User[] }) {
         />
         <FormField
           control={form.control}
-          name="ministrant"
+          name="zbiorMinistrantow"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Komu przyznać?</FormLabel>
@@ -98,7 +112,9 @@ export function AddOdznaka({ ministranci }: { ministranci: User[] }) {
             </FormItem>
           )}
         />
-        <Button type="submit">Dodaj</Button>
+        <Button loading={form.formState.isSubmitting} type="submit">
+          Dodaj
+        </Button>
       </form>
     </Form>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { HexColorPicker } from "react-colorful";
 import {
   Popover,
@@ -32,6 +32,10 @@ export default function ColorPicker({
     },
     [onChange]
   );
+
+  useEffect(() => {
+    setColor((propValue as string) || "#000000");
+  }, [propValue]);
 
   return (
     <div className="flex flex-col space-y-2">

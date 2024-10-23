@@ -3,6 +3,8 @@
 import RangaBadge from "@/components/RangaBadge";
 import { User, UserRanga } from "@/lib/database/scheme";
 import { ColumnDef } from "@tanstack/react-table";
+import { UsersWithOdznaki } from "./page";
+import { Badge } from "@/components/ui/badge";
 
 // export type Ministrant = {
 //   id: number;
@@ -20,7 +22,7 @@ type punktyUserow = {
   userId: number;
 };
 
-export const columns: ColumnDef<User>[] = [
+export const columns: ColumnDef<UsersWithOdznaki[number]>[] = [
   {
     accessorKey: "name",
     header: "Imię i nazwisko",
@@ -50,5 +52,22 @@ export const columns: ColumnDef<User>[] = [
       );
     },
   },
-  { accessorKey: "odznaki", header: "Odznaki" },
+  {
+    accessorKey: "odznaki",
+    header: "Odznaki",
+    cell: ({ row }) => {
+      return (
+        <div id="badges" className="space-y-1">
+          {row.original.odznakiToUsers.map((pivot) => (
+            <Badge
+              style={{ backgroundColor: pivot.odznaka.kolor }}
+              className="min-w-fit text-center text-nowrap"
+            >
+              {pivot.odznaka.napis}
+            </Badge>
+          ))}
+        </div>
+      );
+    },
+  },
 ];

@@ -1,80 +1,62 @@
-// "use server";
+"use server";
 
-// import { db } from "@/lib/database";
-// import { getMe } from "../authutils";
-// import {
-//   DzienTygodnia,
-//   GodzinaNiedzielna,
-//   GodzinaTygodniowa,
-//   planNiedzielny,
-//   PlanNiedzielnyInsert,
-//   planTygodniowy,
-//   PlanTygodniowyInsert,
-// } from "@/lib/database/scheme";
-// import { eq } from "drizzle-orm";
+import {
+  DzienTygodnia,
+  GodzinaTygodniowa,
+  planTygodniowy,
+} from "@/lib/database/scheme";
+import { getMe } from "../authutils";
+import { db } from "@/lib/database";
+import { and, eq } from "drizzle-orm";
 
-// function getHourObject(
-//   godzina: GodzinaTygodniowa,
-//   value: boolean
-// ): Partial<PlanTygodniowyInsert> {
-//   switch (godzina) {
-//     case GodzinaTygodniowa.OSIEMNASTA:
-//       return { GodzinaTygodniowa: godzina };
-//     case GodzinaTygodniowa.OSMA:
-//       return { GodzinaTygodniowa: godzina };
+export async function wypiszZGodzinyWTygodniu(
+  godzina: GodzinaTygodniowa,
+  dzien: DzienTygodnia
+) {
+  const user = await getMe();
 
-//     default:
-//       return {};
-//   }
-// }
+  if (!user) {
+    throw new Error("unauthorized");
+  }
 
-// export async function zapiszNaGodzine(
-//   godzina: GodzinaTygodniowa,
-//   dzien: DzienTygodnia
-// ) {
-//   const user = await getMe();
+  await db
+    .delete(planTygodniowy)
+    .where(
+      and(
+        eq(planTygodniowy.userId, user.id),
+        eq(planTygodniowy.GodzinaTygodniowa, godzina),
+        eq(planTygodniowy.DzienTygodnia, dzien)
+      )
+    );
+}
 
-//   if (!user) {
-//     throw new Error("unauthorized");
-//   }
+export async function zapiszNaGodzineWTygodniu(
+  godzina: GodzinaTygodniowa,
+  dzien: DzienTygodnia
+) {
+  const user = await getMe();
 
-//   const userPlanEntry = await db.query.planTygodniowy.findFirst({
-//     where: eq(planTygodniowy.userId, user.id),
-//   });
+  if (!user) {
+    throw new Error("unauthorized");
+  }
 
-//   if (userPlanEntry) {
-//     await db
-//       .update(planTygodniowy)
-//       .set(getHourObject(godzina, true))
-//       .where(eq(planTygodniowy.userId, user.id));
-//   } else {
-//     await db.insert(planTygodniowy).values({
-//       userId: user.id,
-//       GodzinaTygodniowa: godzina === godzina,
-//       DzienTygodnia: dzien === dzien,
-//     });
-//   }
-// }
+  const duplikat = await db.query.planTygodniowy.findFirst({
+    where: and(
+      eq(planTygodniowy.userId, user.id),
+      eq(planTygodniowy.GodzinaTygodniowa, godzina),
+      eq(planTygodniowy.DzienTygodnia, dzien)
+    ),
+  });
 
-// export async function wypiszZGodziny(godzina: GodzinaTygodniowa) {
-//   const user = await getMe();
+  if (duplikat) {
+    return;
+  }
 
-//   if (!user) {
-//     throw new Error("unauthorized");
-//   }
-
-//   const userPlanEntry = await db.query.planNiedzielny.findFirst({
-//     where: eq(planNiedzielny.userId, user.id),
-//   });
-
-//   if (userPlanEntry) {
-//     await db
-//       .update(planNiedzielny)
-//       .set(getHourObject(godzina, false))
-//       .where(eq(planNiedzielny.userId, user.id));
-//   } else {
-//     await db.insert(planNiedzielny).values({
-//       userId: user.id,
-//     });
-//   }
-// }
+  await db
+    .insert(planTygodniowy)
+    .values({
+      userId: user.id,
+      DzienTygodnia: dzien,
+      GodzinaTygodniowa: godzina,
+    });
+}
