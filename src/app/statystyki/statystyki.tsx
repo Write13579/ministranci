@@ -23,6 +23,7 @@ import { useAuth } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import RangaBadge from "@/components/RangaBadge";
 import { Odznaka } from "@/lib/database/scheme";
+import { miesiacNaStringaZNumber } from "@/lib/utils";
 
 export default function Statystyki({
   myBadges,
@@ -56,18 +57,10 @@ export default function Statystyki({
   const chartData = mojePunktacje
     .filter((punktacja) => punktacja.srednia !== 0)
     .map((punktacja) => ({
-      miesiac: `${punktacja.miesiac} ${punktacja.rok}`,
+      miesiac: `${miesiacNaStringaZNumber(punktacja.miesiac)} ${punktacja.rok}`,
       userWynik: punktacja.punkty,
       sredniWynik: punktacja.srednia,
     }));
-
-  const chartDataOld = [
-    { miesiac: "Styczeń 2024", userWynik: 60, sredniWynik: 50 },
-    { miesiac: "Luty 2024", userWynik: 65, sredniWynik: 120 },
-    { miesiac: "Marzec 2024", userWynik: 42, sredniWynik: 10 },
-    { miesiac: "Kwiecień 2024", userWynik: 12, sredniWynik: 50 },
-    { miesiac: "Maj 2024", userWynik: 101, sredniWynik: 86 },
-  ];
 
   //pseudonim
   const [editingNick, setEditingNick] = useState<boolean>(false);
