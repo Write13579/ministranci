@@ -5,6 +5,11 @@ import { odznakiToUsers } from "@/lib/database/scheme";
 import { eq } from "drizzle-orm";
 import { pobierzPunktyZMiesiacemIRokiem } from "../ranking/ranking-actions";
 
+export interface SredniaWynik {
+  data: Date;
+  srednia: number;
+}
+
 export default async function PageStatystyki() {
   const me = await getMe();
 
@@ -13,48 +18,93 @@ export default async function PageStatystyki() {
     with: { odznaka: true },
   });
 
-  const punktacjeWszystkichUserow = await pobierzPunktyZMiesiacemIRokiem();
-
-  //tu zrobic dodatkowy element dla mojePunktacje o nazwie `srednia` przypisany na podstawie `data`
-
-  const wynikiZDatami = punktacjeWszystkichUserow.map((punktacja) => ({
-    wynik: punktacja.punkty,
-    data: punktacja.data,
-  }));
-
   // GPT START
 
-  function grupujPoDacie(wyniki: { wynik: number; data: Date }[]): {
-    [data: string]: { wynik: number; data: Date }[];
-  } {
+  interface Wynik {
+    wynik: number;
+    data: Date;
+  }
+
+  // Funkcja do grupowania wyników po dacie
+  function grupujPoDacie(wyniki: Wynik[]): { [data: string]: Wynik[] } {
     return wyniki.reduce((grupy, wynik) => {
-      // Jeśli jeszcze nie istnieje grupa dla tej daty, tworzymy nową tablicę
-      if (!grupy[wynik.data.toDateString()]) {
-        grupy[wynik.data.toDateString()] = [];
+      const dataString = wynik.data.toDateString();
+      if (!grupy[dataString]) {
+        grupy[dataString] = [];
       }
-      // Dodajemy wynik do odpowiedniej grupy
-      grupy[wynik.data.toDateString()].push(wynik);
+      grupy[dataString].push(wynik);
       return grupy;
-    }, {} as { [data: string]: { wynik: number; data: Date }[] });
+    }, {} as { [data: string]: Wynik[] });
   }
 
   // Funkcja do obliczenia średniej dla każdej daty
   function obliczSrednieWyniki(grupowaneWyniki: {
-    [data: string]: { wynik: number; data: Date }[];
-  }): { [data: string]: number } {
-    const srednieWyniki: { [data: string]: number } = {};
+    [data: string]: Wynik[];
+  }): SredniaWynik[] {
+    const srednieWyniki: SredniaWynik[] = [];
 
-    for (const data in grupowaneWyniki) {
-      const wynikiNaDzien = grupowaneWyniki[data];
-      const suma = wynikiNaDzien.reduce((sum, wynik) => sum + wynik.wynik, 0);
-      const srednia = suma / wynikiNaDzien.length;
+    for (const dataString in grupowaneWyniki) {
+      const wynikiNaDzien = grupowaneWyniki[dataString];
 
-      // Zapisujemy średnią do obiektu
-      srednieWyniki[data] = srednia;
+      // Sumowanie wyników
+      const suma = wynikiNaDzien.reduce((sum, wynik) => {
+        return sum + wynik.wynik;
+      }, 0);
+
+      // Obliczenie średniej
+      const srednia = parseFloat((suma / wynikiNaDzien.length).toFixed(2));
+
+      const data = wynikiNaDzien[0].data;
+
+      srednieWyniki.push({
+        data: data,
+        srednia: srednia,
+      });
     }
 
     return srednieWyniki;
   }
+
+  interface Punktacja {
+    punkty: number;
+    userId: number;
+    miesiac: number;
+    rok: number;
+    data: Date;
+  }
+
+  interface PunktacjaZeSrednia extends Punktacja {
+    srednia: number; // Dodajemy średnią jako wymaganą właściwość
+  }
+
+  // Funkcja przypisująca średnie do każdego obiektu na podstawie daty
+  function przypiszSrednieDoPunktacji(
+    punktacje: Punktacja[],
+    srednieWyniki: { data: Date; srednia: number }[]
+  ): PunktacjaZeSrednia[] {
+    return punktacje.map((punktacja) => {
+      // Znajdujemy średnią na podstawie daty
+      const odpowiedniaSrednia = srednieWyniki.find(
+        (sredniaWynik) =>
+          sredniaWynik.data.toDateString() === punktacja.data.toDateString()
+      );
+
+      // Jeśli średnia dla tej daty istnieje, zwracamy nowy obiekt PunktacjaZeSrednia
+      return {
+        ...punktacja,
+        srednia: odpowiedniaSrednia ? odpowiedniaSrednia.srednia : 0, // Zwracamy średnią, lub 0 jeśli nie znaleziono
+      };
+    });
+  }
+
+  // Wywołanie funkcji:
+
+  const punktacjeWszystkichUserow = await pobierzPunktyZMiesiacemIRokiem();
+
+  const wynikiZDatami = punktacjeWszystkichUserow.map((punktacja) => ({
+    wynik: Number(punktacja.punkty), // Konwersja punktów na number
+    data: punktacja.data,
+  }));
 
   // Grupowanie wyników po dacie
   const zgrupowaneWyniki = grupujPoDacie(wynikiZDatami);
@@ -62,9 +112,19 @@ export default async function PageStatystyki() {
   // Obliczanie średnich wyników dla każdej daty
   const srednieWynikiNaDate = obliczSrednieWyniki(zgrupowaneWyniki);
 
-  // GPT END
+  //console.log("Średnie wyniki na datę:", srednieWynikiNaDate);
 
-  const mojePunktacje = punktacjeWszystkichUserow.filter(
+  // Przypisujemy średnie do odpowiednich obiektów
+  const punktacjeZeSrednimi: PunktacjaZeSrednia[] = przypiszSrednieDoPunktacji(
+    punktacjeWszystkichUserow,
+    srednieWynikiNaDate
+  );
+
+  //console.log("Punktacje ze średnimi:", punktacjeZeSrednimi);
+
+  //GPT END
+
+  const mojePunktacje = punktacjeZeSrednimi.filter(
     (punktacja) => punktacja.userId === me!.id
   );
 

@@ -35,6 +35,7 @@ export default function Statystyki({
     miesiac: number;
     rok: number;
     data: Date;
+    srednia: number;
   }[];
 }) {
   const user = useAuth();
@@ -53,11 +54,11 @@ export default function Statystyki({
   } satisfies ChartConfig;
 
   const chartData = mojePunktacje
-    //.filter((punktacja) => punktacja.sredniWynik !== 0)
+    .filter((punktacja) => punktacja.srednia !== 0)
     .map((punktacja) => ({
       miesiac: `${punktacja.miesiac} ${punktacja.rok}`,
       userWynik: punktacja.punkty,
-      sredniWynik: 1,
+      sredniWynik: punktacja.srednia,
     }));
 
   const chartDataOld = [
