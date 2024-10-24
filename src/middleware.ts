@@ -4,17 +4,19 @@ import { getMe } from "./app/authutils";
 
 export async function middleware(request: NextRequest) {
   const AUTH_PAGES = [
-    { url: "/ustawienia/createUser", admin: true },
     { url: "/statystyki", admin: false },
-    { url: "/ustawienia", admin: false },
-    { url: "/ustawienia/wiadomoscDoAnimatora", admin: false },
-    { url: "/ustawienia/zmienHaslo", admin: false },
     { url: "/informacje", admin: false },
     { url: "/materialy", admin: false },
     { url: "/listaMinistrantow", admin: false },
     { url: "/ranking", admin: false },
     { url: "/planNiedzielny", admin: false },
-    { url: "/ustawienia/ustawKomusNoweHaslo", admin: false },
+    { url: "/ustawienia", admin: false },
+    { url: "/ustawienia/zmienHaslo", admin: false },
+    { url: "/ustawienia/wiadomoscDoAnimatora", admin: false },
+    { url: "/ustawienia/createUser", admin: true },
+    { url: "/ustawienia/punktacja", admin: true },
+    { url: "/ustawienia/przyznajOdznake", admin: true },
+    { url: "/ustawienia/ustawKomusNoweHaslo", admin: true },
   ];
 
   const authPage = AUTH_PAGES.find((authPageUrl) =>

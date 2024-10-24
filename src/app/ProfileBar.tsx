@@ -23,7 +23,11 @@ import { useAuth } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import RangaBadge from "@/components/RangaBadge";
 
-export default function ProfileBar() {
+export default function ProfileBar({
+  mojaSumaPunktow,
+}: {
+  mojaSumaPunktow: number;
+}) {
   const user = useAuth();
   const router = useRouter();
 
@@ -37,6 +41,7 @@ export default function ProfileBar() {
       </Link>
     );
   }
+
   return (
     <div id="profil">
       <Sheet open={opened} onOpenChange={setOpened}>
@@ -58,15 +63,14 @@ export default function ProfileBar() {
                 className="items-center text-center justify-center italic my-4"
               >
                 <span>Zebrałeś łącznie </span>
-                <span>100pkt</span>
+                <span>{mojaSumaPunktow}pkt</span>
               </span>
               <div id="buttony" className="gap-2 flex">
-                {" "}
                 <Link href="/statystyki" onClick={() => setOpened(false)}>
                   <Button id="statystyki" variant="outline">
                     <ChartNoAxesCombined />
                   </Button>
-                </Link>{" "}
+                </Link>
                 <Link href="/ustawienia" onClick={() => setOpened(false)}>
                   <Button id="ustawienia" variant="outline">
                     <Settings />

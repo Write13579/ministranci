@@ -8,6 +8,7 @@ import ProfileBar from "./ProfileBar";
 import { Toaster } from "@/components/ui/sonner";
 import { getMe } from "./authutils";
 import AuthProvider from "@/lib/auth";
+import { pobierzMojePunkty } from "./ranking/ranking-actions";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -26,6 +27,8 @@ export default async function RootLayout({
 }>) {
   const user = await getMe();
 
+  const mojaSumaPunktow = await pobierzMojePunkty(user!.id);
+
   return (
     <html lang="pl">
       <body
@@ -40,7 +43,7 @@ export default async function RootLayout({
             <h1 id="title" className="text-xl font-semibold animate-Shake">
               <Link href="/">Panel Ministrancki</Link>
             </h1>
-            <ProfileBar />
+            <ProfileBar mojaSumaPunktow={mojaSumaPunktow} />
           </div>
           {children} <Toaster />
         </AuthProvider>

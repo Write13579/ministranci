@@ -11,6 +11,7 @@ import { getMe } from "./authutils";
 import { db } from "@/lib/database";
 import { eq } from "drizzle-orm";
 import { infos } from "@/lib/database/scheme";
+import { pobierzMojePunkty } from "./ranking/ranking-actions";
 
 export default async function Home() {
   const dzien = new Date().getDate();
@@ -26,6 +27,8 @@ export default async function Home() {
   const pinnedInfo = await db.query.infos.findFirst({
     where: eq(infos.pinned, true),
   });
+
+  const mojaSumaPunktow = await pobierzMojePunkty(user!.id);
 
   return (
     <div id="alles" className="px-4">
@@ -65,7 +68,7 @@ export default async function Home() {
             <div className="border-2 border-red-600/40 p-5 rounded-lg flex justify-center items-center gap-1 bg-red-600/5">
               <span>Punkty łącznie: </span>
               <span className="text-red-600 text-2xl font-bold [text-shadow:_0_0_30px]">
-                100pkt
+                {mojaSumaPunktow}pkt
               </span>
             </div>
 

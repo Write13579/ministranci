@@ -26,8 +26,16 @@ import { Odznaka } from "@/lib/database/scheme";
 
 export default function Statystyki({
   myBadges,
+  mojePunktacje,
 }: {
   myBadges: { odznaka: Odznaka }[];
+  mojePunktacje: {
+    punkty: number;
+    userId: number;
+    miesiac: number;
+    rok: number;
+    data: Date;
+  }[];
 }) {
   const user = useAuth();
   const router = useRouter();
@@ -44,7 +52,15 @@ export default function Statystyki({
     },
   } satisfies ChartConfig;
 
-  const chartData = [
+  const chartData = mojePunktacje
+    //.filter((punktacja) => punktacja.sredniWynik !== 0)
+    .map((punktacja) => ({
+      miesiac: `${punktacja.miesiac} ${punktacja.rok}`,
+      userWynik: punktacja.punkty,
+      sredniWynik: 1,
+    }));
+
+  const chartDataOld = [
     { miesiac: "Styczeń 2024", userWynik: 60, sredniWynik: 50 },
     { miesiac: "Luty 2024", userWynik: 65, sredniWynik: 120 },
     { miesiac: "Marzec 2024", userWynik: 42, sredniWynik: 10 },
@@ -167,7 +183,7 @@ export default function Statystyki({
             {user && (
               <div
                 id="ranga"
-                className="grid grid-cols-1 grid-rows-1 my-1 w-44"
+                className="grid grid-cols-1 grid-rows-1 my-2 w-44"
               >
                 <RangaBadge ranga={user.ranga} />
               </div>
@@ -176,6 +192,7 @@ export default function Statystyki({
           <div id="badges" className=" my-3 grid gap-2 grid-cols-2">
             {myBadges.map((pivot) => (
               <Badge
+                className="flex justify-center"
                 key={pivot.odznaka.id}
                 style={{ backgroundColor: pivot.odznaka.kolor }}
               >
@@ -208,11 +225,11 @@ export default function Statystyki({
                     tickMargin={10}
                     axisLine={false}
                     tickFormatter={(value) => value.slice(0, 3)}
-                  />{" "}
+                  />
                   <ChartTooltip content={<ChartTooltipContent />} />
                   <ChartLegend content={<ChartLegendContent />} />
                   <Bar
-                    dataKey={"userWynik"}
+                    dataKey="userWynik"
                     fill="var(--color-userWynik)"
                     radius={3}
                   >
@@ -224,7 +241,7 @@ export default function Statystyki({
                     />
                   </Bar>
                   <Bar
-                    dataKey={"sredniWynik"}
+                    dataKey="sredniWynik"
                     fill="var(--color-sredniWynik"
                     radius={3}
                   >

@@ -37,6 +37,14 @@ export default function Ustawienia() {
               Anonimowa wiadomość do animatora
             </div>
           </Link>
+          <Link href={"/ustawienia/zmienSwojeDane"}>
+            <div
+              id="zmienSwojeDane"
+              className="border-2 border-black/30 rounded-lg py-2.5 px-3 font-semibold bg-gray-300"
+            >
+              Zmień swoje dane
+            </div>
+          </Link>
           {user!.admin && (
             <div id="dlaAdmina" className="gap-3 grid">
               <Link href={"ustawienia/createUser"}>

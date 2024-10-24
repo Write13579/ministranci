@@ -88,7 +88,7 @@ export default function TabelaNiedziela({
   const me = useAuth();
   const router = useRouter();
 
-  const [editing, setEditing] = useState(true);
+  const [editing, setEditing] = useState(false);
 
   return (
     <div id="wraper" className="relative">
@@ -142,7 +142,9 @@ export default function TabelaNiedziela({
                           onUnsave={() => {
                             router.refresh();
                             setEditing(false);
-                            toast(`Wypisałeś się z godziny: ${godzina}!`);
+                            toast(
+                              `Wypisałeś się z ${dzien} z godziny: ${godzina}!`
+                            );
                           }}
                           godzina={godzina}
                           dzien={dzien}
@@ -152,7 +154,9 @@ export default function TabelaNiedziela({
                           onSave={() => {
                             router.refresh();
                             setEditing(false);
-                            toast(`Zapisałeś się na godzinę: ${godzina}!`);
+                            toast(
+                              `Zapisałeś się na ${dzien} na godzinę: ${godzina}!`
+                            );
                           }}
                           godzina={godzina}
                           dzien={dzien}

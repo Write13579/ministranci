@@ -77,7 +77,7 @@ export default function ZmienHaslo() {
         Zmiana hasła
       </h1>
       <div
-        id="obramowowka tego gownoforma"
+        id="obramowowka forma"
         className="border-2 border-black/30 rounded-lg py-2.5 px-3 font-semibold bg-gray-300 m-7"
       >
         <Form {...form}>
